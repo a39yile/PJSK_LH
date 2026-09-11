@@ -379,6 +379,13 @@ const cardsData = [
   {
     "group": "Virtual Singers",
     "character": "初音未来",
+    "type": "常驻",
+    "card_name": "向大家呈献首演",
+    "image": "https://storage.exmeaning.com/sekai-cn-assets/character/member/res021_no008/card_after_training.webp"
+  },
+  {
+    "group": "Virtual Singers",
+    "character": "初音未来",
     "type": "期间限定",
     "card_name": "被回响的心愿包围",
     "image": "icon/VOCALOID/1148.webp"
