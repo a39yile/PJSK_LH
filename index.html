@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<script>
+!(function(j,a,g){j.__itrace_conf = {bid: 'f43basl8-6nqu7l3w',rel: '0.0.1', spa: true, uid: '', plugins:['jserror','interface','perf','resource','flow','blank']};var b = a.createElement("script");var d = a.getElementsByTagName("script")[0];b.type = "text/javascript";b.crossorigin = true;b.async = true;b.onload = function(){j.__itrace && j.__itrace.setReady()};d.parentNode.insertBefore(b,d);b.src = g})(window, document, "https://g.alicdn.com/woodpeckerx/itrace-next/itrace.iife.js")
+</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界计划卡片个人收集图鉴 | Project SEKAI Cards</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>世界计划 彩色舞台<br>feat. 初音未来<br>个人收集图鉴</h1>
+            <p class="subtitle">Project SEKAI Card Collection</p>
+            <p class="stats" id="stats">共 62 张卡片 | 6 个团体</p>
+        </header>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="搜索角色名或卡名...">
+            <div class="filter-row">
+                <select id="groupFilter">
+                    <option value="all">团队</option>
+                    <option value="Virtual Singers">VOCALOID</option>
+                    <option value="Leo/need">Leo/need</option>
+                    <option value="MORE MORE JUMP!">MORE MORE JUMP!</option>
+                    <option value="Vivid BAD SQUAD">Vivid BAD SQUAD</option>
+                    <option value="Wonderlands×Showtime">Wonderlands×Showtime</option>
+                    <option value="25时，在Nightcord见">25点，Nightcord见。</option>
+                </select>
+                <select id="characterFilter">
+                    <option value="all">角色</option>
+                </select>
+            </div>
+            <select id="typeFilter">
+                <option value="all">卡片类型</option>
+                <option value="常驻">常驻</option>
+                <option value="期间限定">期间限定</option>
+                <option value="WL限定">WL限定</option>
+                <option value="BFES">BFES</option>
+                <option value="CFES">CFES</option>
+                <option value="联动限定">联动限定</option>
+            </select>
+        </div>
+
+        <div id="iconBar" class="icon-bar"></div>
+        <div id="cardContainer"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+        <footer>
+            <p>数据来源：Project SEKAI 官方游戏 | 共 <span id="totalCount">62</span> 张卡片</p>
+            <p>本页面为粉丝制作的非官方图鉴，不隶属于 SEGA 或 Colorful Palette 本页面使用Qwen3辅助制作<br>by:a39yile </p>
+        </footer>
+    </div>
+</body>
+</html>
