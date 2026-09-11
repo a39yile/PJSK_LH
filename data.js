@@ -381,7 +381,7 @@ const cardsData = [
     "character": "初音未来",
     "type": "常驻",
     "card_name": "向大家呈献首演",
-    "image": "https://storage.exmeaning.com/sekai-cn-assets/character/member/res021_no008/card_after_training.webp"
+    "image": "icon/VOCALOID/88.webp"
   },
   {
     "group": "Virtual Singers",
