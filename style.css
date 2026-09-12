@@ -613,12 +613,6 @@ body {
  暗色模式全面适配
  ============================================ */
 
-:root[data-theme="dark"] .container,
-:root[data-theme="dark"] .card-item {
- background-color: var(--card-bg);
- border-color: var(--border-color);
-}
-
 /* 展开的分组区域 */
 :root[data-theme="dark"] .group-section.expanded {
  background: #1e1e1e;

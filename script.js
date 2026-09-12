@@ -1,62 +1,38 @@
-// ============================================ //
-// 主题切换逻辑 (APP WebView 完美适配版)
-// ============================================ //
+/**
+ * 主题切换逻辑（APP WebView 适配版）
+ * 优先级：localStorage 记忆 > 系统偏好 > 按时间判断（6-18 点亮色）
+ */
+;(function () {
+  'use strict';
 
-// 获取按钮元素
-const themeToggle = document.getElementById('theme-toggle');
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return; // 页面无切换按钮时安全退出
 
-// 页面加载时，检查本地存储中是否有保存的主题
-let savedTheme = localStorage.getItem('theme');
+  const root = document.documentElement;
 
-// 如果没有保存的主题，则开始自动判断
-if (!savedTheme) {
-    let canDetectSystem = false;
-    
-    // 1. 优先尝试读取系统/APP内置浏览器的偏好
+  /** 检测应使用的初始主题 */
+  function detectTheme() {
     if (window.matchMedia) {
-        const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        const lightModeQuery = window.matchMedia('(prefers-color-scheme: light)');
-        
-        if (darkModeQuery.matches) {
-            savedTheme = 'dark';
-            canDetectSystem = true;
-        } else if (lightModeQuery.matches) {
-            savedTheme = 'light';
-            canDetectSystem = true;
-        }
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+      if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
     }
+    // 无法读取系统偏好时按时间回退
+    const hour = new Date().getHours();
+    return (hour >= 6 && hour < 18) ? 'light' : 'dark';
+  }
 
-    // 2. 如果无法读取系统模式，回退到按时间判断
-    if (!canDetectSystem) {
-        const currentHour = new Date().getHours();
-        // 6点到18点之间为白天模式(light)，其他时间为黑夜模式(dark)
-        savedTheme = (currentHour >= 6 && currentHour < 18) ? 'light' : 'dark';
-    }
-}
+  /** 应用主题到页面并同步按钮文字 */
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    btn.textContent = theme === 'dark' ? '切换白色' : '切换黑色';
+  }
 
-// 将主题应用到页面
-document.documentElement.setAttribute('data-theme', savedTheme);
-updateButtonText(savedTheme);
+  // 初始化：优先使用用户上次的选择
+  applyTheme(localStorage.getItem('theme') || detectTheme());
 
-// 监听按钮点击事件
-themeToggle.addEventListener('click', () => {
-    // 获取当前主题
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    // 切换主题：如果是 light 就变成 dark，如果是 dark 就变成 light
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    // 将新主题应用到页面
-    document.documentElement.setAttribute('data-theme', newTheme);
-    // 将用户的选择保存到浏览器的本地存储中
+  btn.addEventListener('click', () => {
+    const newTheme = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
     localStorage.setItem('theme', newTheme);
-    // 更新按钮文字
-    updateButtonText(newTheme);
-});
-
-// 辅助函数：根据当前主题更新按钮上的文字
-function updateButtonText(theme) {
-    if (theme === 'dark') {
-        themeToggle.textContent = '切换白色';
-    } else {
-        themeToggle.textContent = '切换黑色';
-    }
-}
+    applyTheme(newTheme);
+  });
+})();
