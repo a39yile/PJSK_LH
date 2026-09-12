@@ -735,3 +735,277 @@ body {
  border-color: #8a7af9;
  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
+
+
+/* ============================================
+ 「我的」页面 - 常用链接卡片
+ ============================================ */
+
+.link-section {
+ margin-top: 10px;
+}
+
+.section-title {
+ font-size: 1.4rem;
+ color: #222;
+ margin-bottom: 16px;
+ padding-left: 12px;
+ border-left: 4px solid #6a5af9;
+}
+
+.link-list {
+ display: flex;
+ flex-direction: column;
+ gap: 12px;
+}
+
+.link-card {
+ display: flex;
+ align-items: center;
+ gap: 14px;
+ padding: 14px 16px;
+ background: #ffffff;
+ border: 1px solid #e0e0e8;
+ border-radius: 12px;
+ transition: all 0.25s ease;
+}
+
+.link-card:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+ border-color: #c0c0d0;
+}
+
+.link-card:active {
+ transform: scale(0.98);
+}
+
+.link-icon {
+ width: 48px;
+ height: 48px;
+ border-radius: 12px;
+ object-fit: cover;
+ flex-shrink: 0;
+}
+
+.link-info {
+ display: flex;
+ flex-direction: column;
+ gap: 3px;
+ min-width: 0;
+ flex: 1;
+}
+
+.link-title {
+ font-size: 1.05rem;
+ font-weight: bold;
+ color: #333;
+}
+
+.link-desc {
+ font-size: 0.85rem;
+ color: #888;
+ overflow: hidden;
+ text-overflow: ellipsis;
+ white-space: nowrap;
+}
+
+.link-arrow {
+ font-size: 1.6rem;
+ color: #ccc;
+ flex-shrink: 0;
+ line-height: 1;
+ transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.link-card:hover .link-arrow {
+ transform: translateX(3px);
+ color: #6a5af9;
+}
+
+/* 链接卡片 - 暗色模式 */
+:root[data-theme="dark"] .section-title {
+ color: #e0e0e0;
+ border-left-color: #8a7af9;
+}
+
+:root[data-theme="dark"] .link-card {
+ background: #1e1e1e;
+ border-color: #333;
+}
+
+:root[data-theme="dark"] .link-card:hover {
+ box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+ border-color: #555;
+}
+
+:root[data-theme="dark"] .link-title {
+ color: #e0e0e0;
+}
+
+:root[data-theme="dark"] .link-desc {
+ color: #999;
+}
+
+:root[data-theme="dark"] .link-arrow {
+ color: #555;
+}
+
+:root[data-theme="dark"] .link-card:hover .link-arrow {
+ color: #8a7af9;
+}
+
+
+/* ============================================
+ 链接卡片二级展开（子链接列表）
+ ============================================ */
+
+.link-group {
+ display: flex;
+ flex-direction: column;
+}
+
+.link-group .link-card {
+ cursor: pointer;
+}
+
+.link-sub-list {
+ max-height: 0;
+ overflow: hidden;
+ transition: max-height 0.35s ease;
+ margin-left: 20px;
+}
+
+.link-group.open .link-sub-list {
+ max-height: 400px;
+}
+
+/* 展开时主卡片箭头旋转指示 */
+.link-group.open .link-arrow {
+ transform: rotate(90deg);
+ color: #6a5af9;
+}
+
+.link-sub-item {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ padding: 10px 16px;
+ margin-top: 8px;
+ background: #fafaff;
+ border: 1px dashed #d8d8e8;
+ border-radius: 10px;
+ color: #444;
+ font-size: 0.95rem;
+ transition: all 0.2s ease;
+}
+
+.link-sub-item:hover {
+ border-color: #6a5af9;
+ color: #6a5af9;
+ border-style: solid;
+ transform: translateX(3px);
+}
+
+.sub-dot {
+ width: 6px;
+ height: 6px;
+ border-radius: 50%;
+ background: #6a5af9;
+ flex-shrink: 0;
+}
+
+/* 二级展开 - 暗色模式 */
+:root[data-theme="dark"] .link-sub-item {
+ background: #242424;
+ border-color: #3a3a3a;
+ color: #ccc;
+}
+
+:root[data-theme="dark"] .link-sub-item:hover {
+ border-color: #8a7af9;
+ color: #8a7af9;
+}
+
+:root[data-theme="dark"] .sub-dot {
+ background: #8a7af9;
+}
+
+:root[data-theme="dark"] .link-group.open .link-arrow {
+ color: #8a7af9;
+}
+
+
+/* 子链接图片位（24px 圆角小图，未放图时回退为圆点） */
+.sub-icon {
+ width: 24px;
+ height: 24px;
+ border-radius: 6px;
+ object-fit: cover;
+ flex-shrink: 0;
+}
+
+
+/* 子链接文字+网址排版（「关于」页） */
+.link-sub-item span:last-child {
+ display: flex;
+ align-items: center;
+ gap: 6px;
+ flex: 1;
+ min-width: 0;
+}
+
+.sub-label {
+ overflow: hidden;
+ text-overflow: ellipsis;
+ white-space: nowrap;
+}
+
+.sub-url {
+ margin-left: auto;
+ font-size: 0.75rem;
+ flex-shrink: 0;
+}
+
+/* 允许 6 条子链接完整展开 */
+.link-group.open .link-sub-list {
+ max-height: 480px;
+}
+
+/* 子链接悬停提亮 */
+.link-sub-item:hover .sub-label {
+ filter: brightness(1.15);
+}
+
+/* 暗色模式网址提亮 */
+:root[data-theme="dark"] .sub-url {
+ filter: brightness(1.5);
+}
+
+
+/* 链接来源说明（「关于」页卡片列表下方） */
+.link-credit {
+ margin-top: 14px;
+ text-align: center;
+ font-size: 0.85rem;
+ color: #999;
+}
+
+.credit-link {
+ color: #6a5af9 !important;
+ text-decoration: underline !important;
+ text-underline-offset: 3px;
+ cursor: pointer;
+}
+
+.credit-link:hover {
+ opacity: 0.8;
+}
+
+:root[data-theme="dark"] .link-credit {
+ color: #888;
+}
+
+:root[data-theme="dark"] .credit-link {
+ color: #8a7af9 !important;
+}

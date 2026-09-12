@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<script>
+!(function(j,a,g){j.__itrace_conf = {bid: 'f43basl8-6nqu7l3w',rel: '0.0.1', spa: true, uid: '', plugins:['jserror','interface','perf','resource','flow','blank']};var b = a.createElement("script");var d = a.getElementsByTagName("script")[0];b.type = "text/javascript";b.crossorigin = true;b.async = true;b.onload = function(){j.__itrace && j.__itrace.setReady()};d.parentNode.insertBefore(b,d);b.src = g})(window, document, "https://g.alicdn.com/woodpeckerx/itrace-next/itrace.iife.js")
+</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>即将离开 · 外部链接提示</title>
+    <script>
+    /* 主题与主站保持一致（localStorage 优先，其次系统偏好，最后按时间） */
+    (function () {
+        var t = localStorage.getItem('theme');
+        if (!t && window.matchMedia) {
+            t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (!t) {
+            var h = new Date().getHours();
+            t = (h >= 6 && h < 18) ? 'light' : 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+    })();
+    </script>
+    <style>
+        /* 基础 */
+        * { margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', 'Hiragino Sans', sans-serif; }
+        a { text-decoration: none; }
+
+        :root {
+            --bg: #f4f4f9;
+            --card: #ffffff;
+            --text: #333;
+            --sub: #888;
+            --border: #e0e0e8;
+            --accent: #6a5af9;
+        }
+        :root[data-theme="dark"] {
+            --bg: #14181d;
+            --card: #1d232b;
+            --text: #e0e0e0;
+            --sub: #9aa3ad;
+            --border: #2e3640;
+            --accent: #8a7af9;
+        }
+
+        html, body { height: 100%; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .exit-card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            padding: 36px 28px 28px;
+            text-align: center;
+        }
+        :root[data-theme="dark"] .exit-card { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45); }
+
+        .exit-icon { font-size: 2.6rem; line-height: 1; margin-bottom: 14px; }
+
+        .exit-title { font-size: 1.35rem; margin-bottom: 12px; }
+
+        .exit-desc { font-size: 0.9rem; color: var(--sub); margin-bottom: 8px; }
+
+        .exit-url {
+            display: inline-block;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: middle;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: var(--accent);
+            background: rgba(0, 193, 181, 0.1);
+            padding: 4px 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        :root[data-theme="dark"] .exit-url {
+            background: rgba(138, 122, 249, 0.16);
+        }
+
+        .exit-notice {
+            font-size: 0.82rem;
+            color: var(--sub);
+            background: rgba(128, 128, 128, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .exit-btn {
+            display: block;
+            width: 100%;
+            padding: 13px 0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .exit-go {
+            background: linear-gradient(90deg, #6a5af9, #8a7af9);
+            color: #fff;
+            border: none;
+            margin-bottom: 12px;
+        }
+        .exit-go:hover { filter: brightness(1.08); transform: translateY(-1px); }
+        .exit-go:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+        .exit-close {
+            background: transparent;
+            color: var(--sub);
+            border: 1px solid var(--border);
+        }
+        .exit-close:hover { color: var(--text); border-color: var(--sub); }
+    </style>
+</head>
+<body>
+    <div class="exit-card">
+        <div class="exit-icon">⚠️</div>
+        <h1 class="exit-title">即将离开图鉴</h1>
+        <p class="exit-desc">你正在尝试访问以下外部链接：</p>
+        <a class="exit-url" id="extUrl">—</a>
+        <div class="exit-notice">该页面与世界计划卡片图鉴无关，请谨慎辨别。<br>请注意保护个人信息安全。</div>
+        <button class="exit-btn exit-go" id="btnGo">继续前往</button>
+        <button class="exit-btn exit-close" id="btnClose">关闭页面</button>
+    </div>
+
+    <script>
+    (function () {
+        'use strict';
+        var u = new URLSearchParams(window.location.search).get('u');
+        var valid = u && /^https?:\/\//i.test(u);   // 安全：只放行 http/https，防 javascript: 注入
+
+        var urlEl = document.getElementById('extUrl');
+        var btnGo = document.getElementById('btnGo');
+
+        if (valid) {
+            urlEl.textContent = u;
+            btnGo.addEventListener('click', function () {
+                // location.replace：跳走后按返回键回到来源页而不是本页
+                window.location.replace(u);
+            });
+        } else {
+            urlEl.textContent = '链接无效或缺失';
+            btnGo.disabled = true;
+        }
+
+        document.getElementById('btnClose').addEventListener('click', function () {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';   // 无历史时（新标签页直开）兜底回主页
+            }
+        });
+    })();
+    </script>
+</body>
+</html>

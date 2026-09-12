@@ -30,6 +30,27 @@
         }
         .back-btn:hover { background: rgba(255, 255, 255, 0.4); }
 
+        /* 底部两排文字信息栏：小字号、无描边，颜色跟随卡片团队色（JS 注入） */
+        .detail-info {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            max-width: 90%;
+            text-align: center;
+            z-index: 10;
+        }
+        .detail-line1 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .detail-name { font-size: 0.95rem; }
+        .detail-type { font-size: 0.75rem; padding: 1px 8px; border-radius: 10px; }
+        .detail-line2 { font-size: 0.85rem; }
+        .detail-char { cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+        .detail-char:hover { filter: brightness(1.3); }
+
         /* 图片容器 */
         .img-container {
             max-width: 90%;
@@ -56,6 +77,15 @@
         <img id="detailImage" src="" alt="卡片大图">
     </div>
 
+    <!-- 第一排：卡名+种类 | 第二排：文字文字:角色名（点击跳「关于」页展开对应团队卡片） -->
+    <div class="detail-info" id="detailInfo">
+        <div class="detail-line1">
+            <span class="detail-name" id="detailName"></span>
+            <span class="detail-type" id="detailType"></span>
+        </div>
+        <div class="detail-line2"><span id="detailLabel">文字文字：</span><span class="detail-char" id="detailChar"></span></div>
+    </div>
+
     <script>
         function goBack() {
             // 有浏览历史则正常返回；否则（新标签页/直接打开）跳回主页
@@ -66,17 +96,45 @@
             }
         }
 
+        // 团队顺序（与「关于」页卡片顺序一致）与团队色
+        const GROUPS_ORDER = ['Leo/need', 'MORE MORE JUMP!', 'Vivid BAD SQUAD', 'Wonderlands×Showtime', '25时，在Nightcord见', 'Virtual Singers'];
+        const TEAM_COLORS = {
+            'Leo/need': '#4455DD', 'MORE MORE JUMP!': '#88DD44', 'Vivid BAD SQUAD': '#EE1166',
+            'Wonderlands×Showtime': '#FF9900', '25时，在Nightcord见': '#884499', 'Virtual Singers': '#33CCBB',
+        };
+
         window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const imgSrc = urlParams.get('img');
+            const p = new URLSearchParams(window.location.search);
+            const imgSrc = p.get('img');
             const imgElement = document.getElementById('detailImage');
 
-            if (imgSrc) {
-                imgElement.src = imgSrc;
-            } else {
+            if (!imgSrc) {
                 imgElement.alt = "未找到图片信息";
                 document.querySelector('.img-container').style.background = "#333";
+                return;
             }
+            imgElement.src = imgSrc;
+            if (!p.get('name')) return; // 旧链接无文字参数时只显图
+
+            const gIdx = parseInt(p.get('g'));
+            const color = (gIdx >= 0 && gIdx < GROUPS_ORDER.length) ? TEAM_COLORS[GROUPS_ORDER[gIdx]] : '#888';
+
+            const info = document.getElementById('detailInfo');
+            info.style.display = 'flex';
+            info.style.color = color;   // 两排文字统一团队色，与卡片描边一致
+
+            document.getElementById('detailName').textContent = p.get('name');
+            const typeEl = document.getElementById('detailType');
+            typeEl.textContent = p.get('type');
+            typeEl.style.color = color;
+            typeEl.style.background = 'rgba(255,255,255,0.14)';
+            document.getElementById('detailLabel').style.color = color;
+
+            const charEl = document.getElementById('detailChar');
+            charEl.textContent = p.get('char');
+            charEl.addEventListener('click', function () {
+                location.href = 'mine.html?open=' + gIdx;
+            });
         }
     </script>
 
