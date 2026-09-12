@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡片详情 - Project SEKAI</title>
+    <style>
+        /* 基础样式重置 */
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #1a1a1a; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        
+        /* 返回按钮样式 */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-family: sans-serif;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s;
+            z-index: 10;
+            cursor: pointer;
+        }
+        .back-btn:hover { background: rgba(255, 255, 255, 0.4); }
+
+        /* 图片容器 */
+        .img-container {
+            max-width: 90%;
+            max-height: 90%;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 修改点：使用 onclick="history.back()" 代替 href="index.html" -->
+    <div class="back-btn" onclick="history.back()">← 返回上一页</div>
+
+    <div class="img-container">
+        <img id="detailImage" src="" alt="卡片大图">
+    </div>
+
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const imgSrc = urlParams.get('img');
+            const imgElement = document.getElementById('detailImage');
+
+            if (imgSrc) {
+                imgElement.src = imgSrc;
+            } else {
+                imgElement.alt = "未找到图片信息";
+                document.querySelector('.img-container').style.background = "#333";
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -379,13 +379,6 @@ const cardsData = [
   {
     "group": "Virtual Singers",
     "character": "初音未来",
-    "type": "常驻",
-    "card_name": "向大家呈献首演",
-    "image": "icon/VOCALOID/88.webp"
-  },
-  {
-    "group": "Virtual Singers",
-    "character": "初音未来",
     "type": "期间限定",
     "card_name": "被回响的心愿包围",
     "image": "icon/VOCALOID/1148.webp"
