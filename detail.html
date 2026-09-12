@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+<script>
+!(function(j,a,g){j.__itrace_conf = {bid: 'f43basl8-6nqu7l3w',rel: '0.0.1', spa: true, uid: '', plugins:['jserror','interface','perf','resource','flow','blank']};var b = a.createElement("script");var d = a.getElementsByTagName("script")[0];b.type = "text/javascript";b.crossorigin = true;b.async = true;b.onload = function(){j.__itrace && j.__itrace.setReady()};d.parentNode.insertBefore(b,d);b.src = g})(window, document, "https://g.alicdn.com/woodpeckerx/itrace-next/itrace.iife.js")
+</script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>卡片详情 - Project SEKAI</title>
@@ -45,14 +49,23 @@
 </head>
 <body>
 
-    <!-- 修改点：使用 onclick="history.back()" 代替 href="index.html" -->
-    <div class="back-btn" onclick="history.back()">← 返回上一页</div>
+    <!-- 修复：history.back() 在无浏览历史时（如新标签页直接打开）无效，增加回退跳转 -->
+    <div class="back-btn" onclick="goBack()">← 返回上一页</div>
 
     <div class="img-container">
         <img id="detailImage" src="" alt="卡片大图">
     </div>
 
     <script>
+        function goBack() {
+            // 有浏览历史则正常返回；否则（新标签页/直接打开）跳回主页
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const imgSrc = urlParams.get('img');

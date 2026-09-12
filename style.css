@@ -402,6 +402,31 @@ footer a {
  width: 100%;
 }
 
+/* 【新增】重置筛选按钮 */
+#resetFilter {
+ padding: 10px 20px;
+ border-radius: 8px;
+ border: 1px solid #6a5af9;
+ background: linear-gradient(90deg, #6a5af9, #8a7af9);
+ color: #fff;
+ font-size: 1rem;
+ font-weight: bold;
+ cursor: pointer;
+ white-space: nowrap;
+ transition: all 0.25s ease;
+}
+
+#resetFilter:hover {
+ opacity: 0.9;
+ transform: translateY(-1px);
+ box-shadow: 0 4px 12px rgba(106, 90, 249, 0.35);
+}
+
+#resetFilter:active {
+ transform: scale(0.97);
+ box-shadow: none;
+}
+
 .search-bar input:focus,
 .search-bar select:focus,
 .filter-row select:focus {
@@ -438,6 +463,10 @@ footer a {
  .search-bar > select {
  flex: 1;
  min-width: 150px;
+ }
+
+ #resetFilter {
+ flex: 0 0 auto;
  }
 }
 
@@ -705,4 +734,10 @@ body {
 
 :root[data-theme="dark"] .stats {
  color: #999;
+}
+
+/* 重置按钮 - 暗色模式 */
+:root[data-theme="dark"] #resetFilter {
+ border-color: #8a7af9;
+ box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }

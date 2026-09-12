@@ -59,6 +59,7 @@
     cardContainer: () => document.getElementById('cardContainer'), 
     totalCount: () => document.getElementById('totalCount'), 
     stats: () => document.getElementById('stats'), 
+    resetFilter: () => document.getElementById('resetFilter'), 
   }; 
 
   // ============================================ 
@@ -81,7 +82,7 @@
   // ============================================ 
   function renderCard(card, color) { 
     const imgPath = card.image ? esc(card.image) : '';
-    const linkStart = `<a href="detail.html?img=${imgPath}" class="card-link" target="_blank">`;
+    const linkStart = `<a href="detail.html?img=${imgPath}" class="card-link">`;
     const linkEnd = `</a>`;
 
     const imageHtml = card.image 
@@ -165,24 +166,13 @@
     groupsToShow.forEach(group => { 
       const chars = CONFIG.teamCharacters[group]; 
       if (!chars || chars.length === 0) return; 
-      if (groupValue === 'all') { 
-        const optgroup = document.createElement('optgroup'); 
-        optgroup.label = groupLabel(group); 
-        chars.forEach(char => { 
-          const opt = document.createElement('option'); 
-          opt.value = char; 
-          opt.textContent = char; 
-          optgroup.appendChild(opt); 
-        }); 
-        select.appendChild(optgroup); 
-      } else { 
-        chars.forEach(char => { 
-          const opt = document.createElement('option'); 
-          opt.value = char; 
-          opt.textContent = char; 
-          select.appendChild(opt); 
-        }); 
-      } 
+      // 【修改】不再按团体分类（移除 optgroup），角色直接平铺 
+      chars.forEach(char => { 
+        const opt = document.createElement('option'); 
+        opt.value = char; 
+        opt.textContent = char; 
+        select.appendChild(opt); 
+      }); 
     }); 
   } 
 
@@ -240,6 +230,19 @@
       if (params.has('char')) DOM.characterFilter().value = params.get('char');
   }
 
+  /** 
+   * 新增：重置所有筛选条件（搜索词、类型、团队、角色） 
+   */ 
+  function resetFilters() { 
+    DOM.searchInput().value = ''; 
+    DOM.typeFilter().value = 'all'; 
+    DOM.groupFilter().value = 'all'; 
+    updateCharacterFilter('all'); 
+    DOM.characterFilter().value = 'all'; 
+    // 清除所有分组的展开/选中状态由 refresh 重新渲染完成 
+    refresh(); 
+  } 
+
   function refresh() { 
     const { filtered, isFiltered } = getFilteredCards(); 
     DOM.iconBar().innerHTML = renderIconBar(filtered); 
@@ -274,6 +277,7 @@
     }); 
     DOM.characterFilter().addEventListener('change', refresh); 
     DOM.iconBar().addEventListener('click', handleIconClick); 
+    DOM.resetFilter().addEventListener('click', resetFilters); 
   } 
 
   // ============================================ 
