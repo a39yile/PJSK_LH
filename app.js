@@ -217,7 +217,7 @@
       if (char !== 'all') params.set('char', char);
 
       // 使用 pushState 避免页面刷新，同时记录历史
-      const newURL = params.toString() ? `?${params.toString()}` : window.location.pathname;
+      const newURL = (params.toString() ? `?${params.toString()}` : window.location.pathname) + window.location.hash;
       window.history.pushState({}, '', newURL);
   }
 
@@ -287,6 +287,144 @@
   } 
 
   // ============================================ 
+  // 7.5 「我的」视图（数据来自 data/gy_data.js，由 index.html 提前引入） 
+  // ============================================ 
+  const MINE_COLORS = ['6a5af9', 'ff8a00', 'e52e71', '00c1b5', '88dd44', '9d50bb']; 
+  const MINE_URL_COLORS = { 
+    'proj SEKAI': '#64b5f4', 'SEKAI': '#64b5f4', 'Twitter': '#14b8a6', 'X': '#14b8a6', 
+    'YouTube': '#ef5350', 'Instagram': '#ab47bc', 'GitHub': '#8d99ae', 
+    'facebook': '#5c6bc0', 'Bilibili': '#ff8a80', 'App Store': '#42a5f5', 'Google Play': '#66bb6a', 
+  }; 
+  let mineRendered = false; 
+
+  function mineSvgPlaceholder(n) { 
+    const color = MINE_COLORS[(n - 1) % MINE_COLORS.length]; 
+    return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E" 
+      + "%3Crect width='48' height='48' rx='12' fill='%23" + color + "'/%3E" 
+      + "%3Ctext x='24' y='32' font-size='22' font-family='sans-serif' text-anchor='middle' fill='white'%3E" 
+      + n + "%3C/text%3E%3C/svg%3E"; 
+  } 
+
+  function mineMainImg(iconSrc, index) { 
+    const img = document.createElement('img'); 
+    img.className = 'link-icon'; 
+    img.alt = '链接图标' + index; 
+    img.src = iconSrc || mineSvgPlaceholder(index); 
+    img.onerror = function () { this.onerror = null; this.src = mineSvgPlaceholder(index); }; 
+    return img; 
+  } 
+
+  function mineSubImg(src) { 
+    const img = document.createElement('img'); 
+    img.className = 'sub-icon'; 
+    img.alt = ''; 
+    img.src = src; 
+    img.onerror = function () { 
+      const dot = document.createElement('span'); 
+      dot.className = 'sub-dot'; 
+      this.replaceWith(dot); 
+    }; 
+    return img; 
+  } 
+
+  function renderLinkGroups() { 
+    if (mineRendered) return; 
+    const list = document.getElementById('linkList'); 
+    if (!list) return; 
+    const DATA = (typeof gy_data !== 'undefined') ? gy_data 
+      : (typeof linkData !== 'undefined') ? linkData 
+      : (typeof gyData !== 'undefined') ? gyData : null; 
+    if (!DATA) return; 
+    list.innerHTML = ''; 
+    mineRendered = true; 
+
+    DATA.forEach(function (group, gi) { 
+      const wrap = document.createElement('div'); 
+      wrap.className = 'link-group'; 
+
+      const card = document.createElement('div'); 
+      card.className = 'link-card'; 
+      card.appendChild(mineMainImg(group.icon, gi + 1)); 
+      const info = document.createElement('div'); 
+      info.className = 'link-info'; 
+      info.innerHTML = '<span class="link-title">' + esc(group.title) + '</span>' 
+        + '<span class="link-desc">' + esc(group.desc) + '</span>'; 
+      card.appendChild(info); 
+      card.insertAdjacentHTML('beforeend', '<span class="link-arrow">›</span>'); 
+      card.addEventListener('click', function () { wrap.classList.toggle('open'); }); 
+      wrap.appendChild(card); 
+
+      const subList = document.createElement('div'); 
+      subList.className = 'link-sub-list'; 
+      (group.links || []).forEach(function (item) { 
+        const a = document.createElement('a'); 
+        a.className = 'link-sub-item'; 
+        // 外链统一经 external.html 确认页中转 
+        a.href = (item.url && /^https?:\/\//i.test(item.url)) 
+          ? 'external.html?u=' + encodeURIComponent(item.url) 
+          : 'javascript:void(0)'; 
+        a.appendChild(mineSubImg(item.img)); 
+        const label = document.createElement('span'); 
+        if (item.text && typeof item.text === 'object') { 
+          const t = document.createElement('span'); 
+          t.className = 'sub-label'; 
+          t.textContent = item.text.name || ''; 
+          label.appendChild(t); 
+          const u = document.createElement('span'); 
+          const key = item.text.urlKey || ''; 
+          u.textContent = key; 
+          u.className = 'sub-url'; 
+          u.style.color = MINE_URL_COLORS[key] || '#999'; 
+          label.appendChild(u); 
+        } else { 
+          label.textContent = item.text == null ? '' : item.text; 
+        } 
+        a.appendChild(label); 
+        subList.appendChild(a); 
+      }); 
+      wrap.appendChild(subList); 
+      list.appendChild(wrap); 
+    }); 
+  } 
+
+  /** #mine?open=N 或旧链接 ?open=N：自动展开对应团队卡片 */ 
+  function mineAutoOpen(query) { 
+    let idx = query ? parseInt(new URLSearchParams(query).get('open')) : NaN; 
+    if (isNaN(idx)) { 
+      const legacy = new URLSearchParams(window.location.search).get('open'); 
+      if (legacy !== null) idx = parseInt(legacy); 
+    } 
+    if (isNaN(idx)) return; 
+    const el = document.querySelectorAll('#view-mine .link-group')[idx]; 
+    if (!el) return; 
+    el.classList.add('open'); 
+    setTimeout(function () { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 80); 
+  } 
+
+  // ---- hash 路由：#home / #mine（可带 ?open=N） ---- 
+  function parseHash() { 
+    const h = window.location.hash.replace(/^#/, '') || 'home'; 
+    const qi = h.indexOf('?'); 
+    return { view: qi === -1 ? h : h.slice(0, qi), query: qi === -1 ? '' : h.slice(qi + 1) }; 
+  } 
+
+  function routeView() { 
+    const { view, query } = parseHash(); 
+    const isMine = view === 'mine'; 
+    document.getElementById('view-home').classList.toggle('active', !isMine); 
+    document.getElementById('view-mine').classList.toggle('active', isMine); 
+    document.querySelectorAll('.nav-item').forEach(function (n) { 
+      n.classList.toggle('active', n.dataset.view === (isMine ? 'mine' : 'home')); 
+    }); 
+    document.title = isMine ? '我的 - Project SEKAI' : '世界计划卡片个人收集图鉴 | Project SEKAI Cards'; 
+    if (isMine) { 
+      renderLinkGroups(); 
+      mineAutoOpen(query); 
+    } 
+    window.scrollTo(0, 0); 
+  } 
+
+  // ============================================ 
   // 8. 初始化 
   // ============================================ 
   function init() { 
@@ -298,6 +436,11 @@
     initFromURL();
     // 再进行首次渲染
     refresh(); 
+    // 视图路由：hashchange 无刷新切换主页/我的
+    window.addEventListener('hashchange', routeView); 
+    routeView(); 
+    // 兜底：若以 mine.html?open=N 旧地址进来被重定向，参数可能落在 search 上
+    if (parseHash().view === 'mine') mineAutoOpen(''); 
   } 
   if (document.readyState === 'loading') { 
     document.addEventListener('DOMContentLoaded', init); 

@@ -1,185 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<link rel="icon" href="icon/icon.png" type="image/png">
 <script>
-!(function(j,a,g)
-    {j.__itrace_conf = {bid: 'f43basl8-6nqu7l3w',rel: '0.0.1', spa: true, uid: '', plugins:['jserror','interface','perf','resource','flow','blank']};var b = a.createElement("script");var d = a.getElementsByTagName("script")[0];b.type = "text/javascript";b.crossorigin = true;b.async = true;b.onload = function(){j.__itrace && j.__itrace.setReady()};d.parentNode.insertBefore(b,d);b.src = g})(window, document, "https://g.alicdn.com/woodpeckerx/itrace-next/itrace.iife.js")
+!(function(j,a,g){j.__itrace_conf = {bid: 'f43basl8-6nqu7l3w',rel: '0.0.1', spa: true, uid: '', plugins:['jserror','interface','perf','resource','flow','blank']};var b = a.createElement("script");var d = a.getElementsByTagName("script")[0];b.type = "text/javascript";b.crossorigin = true;b.async = true;b.onload = function(){j.__itrace && j.__itrace.setReady()};d.parentNode.insertBefore(b,d);b.src = g})(window, document, "https://g.alicdn.com/woodpeckerx/itrace-next/itrace.iife.js")
 </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的 - Project SEKAI</title>
-    <link rel="stylesheet" href="style.css?v=260913m">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>关于</h1>
-            <p class="subtitle">Personal Page</p>
-        </header>
-
-        <!-- 常用链接区：5 个预留链接位（图片 + 文字 + 链接） -->
-        <!-- 链接内容全部在 data/gy_data.js 中维护（文字/图片/网址），本文件无需改动 -->
-        <section class="link-section">
-            <h2 class="section-title">常用链接</h2>
-            <div class="link-list" id="linkList"><!-- 由 data/gy_data.js 渲染 --></div>
-
-            <!-- 来源说明：点击 MoeSekai 跳转 https://pjsk.moe/zh-cn/ -->
-            <p class="link-credit">这些链接来自于<a class="credit-link" href="https://pjsk.moe/zh-cn/" target="_blank" rel="noopener">MoeSekai</a>。</p>
-        </section>
-
-    </div>
-<!-- 引入链接数据（图片在 icon/ 子目录） -->
-<script src="data/gy_data.js?v=260913m"></script>
-
-<!-- 链接卡片渲染 + 展开交互 -->
-<script>
-(function () {
-    'use strict';
-    const FALLBACK_COLORS = ['6a5af9', 'ff8a00', 'e52e71', '00c1b5', '88dd44', '9d50bb'];
-    // 链接网址固定配色（gy_data 中 text 写成 {name:'文字', urlKey:'YouTube'} 即生效）
-    const URL_COLORS = {
-        'proj SEKAI': '#64b5f4', 'SEKAI': '#64b5f4', 'Twitter': '#14b8a6', 'X': '#14b8a6',
-        'YouTube': '#ef5350', 'Instagram': '#ab47bc', 'GitHub': '#8d99ae',
-        'facebook': '#5c6bc0', 'Bilibili': '#ff8a80', 'App Store': '#42a5f5', 'Google Play': '#66bb6a',
-    };
-
-    function esc(s) {
-        const d = document.createElement('div');
-        d.textContent = s == null ? '' : String(s);
-        return d.innerHTML;
-    }
-
-    function svgPlaceholder(n) {
-        const color = FALLBACK_COLORS[(n - 1) % FALLBACK_COLORS.length];
-        return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E"
-            + "%3Crect width='48' height='48' rx='12' fill='%23" + color + "'/%3E"
-            + "%3Ctext x='24' y='32' font-size='22' font-family='sans-serif' text-anchor='middle' fill='white'%3E"
-            + n + "%3C/text%3E%3C/svg%3E";
-    }
-
-    function buildMainImg(iconSrc, index) {
-        const img = document.createElement('img');
-        img.className = 'link-icon';
-        img.alt = '链接图标' + index;
-        img.src = iconSrc || svgPlaceholder(index);
-        img.onerror = function () { this.onerror = null; this.src = svgPlaceholder(index); };
-        return img;
-    }
-
-    function buildSubImg(src) {
-        const img = document.createElement('img');
-        img.className = 'sub-icon';
-        img.alt = '';
-        img.src = src;
-        img.onerror = function () {
-            const dot = document.createElement('span');
-            dot.className = 'sub-dot';
-            this.replaceWith(dot);
-        };
-        return img;
-    }
-
-    function render() {
-        const list = document.getElementById('linkList');
-        if (!list) return;
-        const DATA = (typeof gy_data !== 'undefined') ? gy_data
-            : (typeof linkData !== 'undefined') ? linkData
-            : (typeof gy_data !== 'undefined') ? gy_data
-            : (typeof gyData !== 'undefined') ? gyData : null;
-        if (!DATA) return;
-        list.innerHTML = '';
-
-        DATA.forEach(function (group, gi) {
-            const wrap = document.createElement('div');
-            wrap.className = 'link-group';
-
-            // 主卡片（点击展开/收起）
-            const card = document.createElement('div');
-            card.className = 'link-card';
-            card.appendChild(buildMainImg(group.icon, gi + 1));
-            const info = document.createElement('div');
-            info.className = 'link-info';
-            info.innerHTML = '<span class="link-title">' + esc(group.title) + '</span>'
-                + '<span class="link-desc">' + esc(group.desc) + '</span>';
-            card.appendChild(info);
-            card.insertAdjacentHTML('beforeend', '<span class="link-arrow">›</span>');
-            card.addEventListener('click', function () {
-                wrap.classList.toggle('open');
-            });
-            wrap.appendChild(card);
-
-            // 子链接列表（点击跳转）
-            const subList = document.createElement('div');
-            subList.className = 'link-sub-list';
-            (group.links || []).forEach(function (item) {
-                const a = document.createElement('a');
-                a.className = 'link-sub-item';
-                // 外链统一经 external.html 确认页中转（防 WebView 直跳，样式仿 MoeSekai）
-                a.href = (item.url && /^https?:\/\//i.test(item.url))
-                    ? 'external.html?u=' + encodeURIComponent(item.url)
-                    : 'javascript:void(0)';
-                a.appendChild(buildSubImg(item.img));
-                const label = document.createElement('span');
-                if (item.text && typeof item.text === 'object') {
-                    const t = document.createElement('span');
-                    t.className = 'sub-label';
-                    t.textContent = item.text.name || '';
-                    label.appendChild(t);
-                    const u = document.createElement('span');
-                    const key = item.text.urlKey || '';
-                    u.textContent = key;
-                    u.className = 'sub-url';
-                    u.style.color = URL_COLORS[key] || '#999';
-                    label.appendChild(u);
-                } else {
-                    label.textContent = item.text == null ? '' : item.text;
-                }
-                a.appendChild(label);
-                subList.appendChild(a);
-            });
-            wrap.appendChild(subList);
-            list.appendChild(wrap);
-        });
-    }
-
-    // 从详情页点角色名跳入时：?open=团队序号 自动展开对应卡片
-    function autoOpen() {
-        const idx = parseInt(new URLSearchParams(location.search).get('open'));
-        if (isNaN(idx)) return;
-        const g = document.querySelectorAll('.link-group')[idx];
-        if (!g) return;
-        g.classList.add('open');
-        setTimeout(function () { g.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 50);
-    }
-    function boot() { render(); autoOpen(); }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot);
-    } else {
-        boot();
-    }
-})();
-</script>
-
-
-    <!-- 主题切换按钮 -->
-<button id="theme-toggle">切换主题</button>
-
-<!-- 引入外部JS文件 -->
-<script src="script.js?v=260913m"></script>
-
-<!-- 底部透明导航栏 -->
-<nav class="bottom-nav">
-    <a href="index.html" class="nav-item">
-        <img src="icon/mine/zy.png" alt="主页" class="nav-icon-img">
-        <span class="nav-text">主页</span>
-    </a>
-    <a href="mine.html" class="nav-item active">
-        <img src="icon/mine/wo.png" alt="我的" class="nav-icon-img">
-        <span class="nav-text">关于</span>
-    </a>
-</nav>
+    <p style="text-align:center;font-family:sans-serif;padding:40px;color:#888;">正在进入单页版本…</p>
+    <script>
+    /* 兼容旧入口：mine.html(?open=N) → index.html#mine(?open=N) */
+    (function () {
+        var q = new URLSearchParams(window.location.search);
+        var target = 'index.html#mine';
+        if (q.has('open')) target += '?open=' + encodeURIComponent(q.get('open'));
+        window.location.replace(target);
+    })();
+    </script>
 </body>
 </html>

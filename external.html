@@ -48,6 +48,22 @@
         html, body { height: 100%; }
         body {
             background: var(--bg);
+            background-image: url('icon/bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        :root[data-theme="dark"] body::before {
+            background: rgba(18, 18, 22, 0.7);
+        }
+        body {
             color: var(--text);
             display: flex;
             justify-content: center;

@@ -63,38 +63,6 @@ function updateButtonText(theme) {
 
 
 // ============================================ //
-// 角色筛选框按团队配色（仅 index.html 生效，其他页面无该元素自动跳过）
-// ============================================ //
-const GROUP_COLORS = {
-    'Leo/need': '#4455DD',
-    'MORE MORE JUMP!': '#88DD44',
-    'Vivid BAD SQUAD': '#EE1166',
-    'Wonderlands×Showtime': '#FF9900',
-    '25时，在Nightcord见': '#884499',
-    'Virtual Singers': '#33CCBB',
-};
-
-const charFilterEl = document.getElementById('characterFilter');
-const groupFilterEl = document.getElementById('groupFilter');
-
-function applyCharColor() {
-    if (!charFilterEl) return;
-    const g = groupFilterEl ? groupFilterEl.value : 'all';
-    const c = GROUP_COLORS[g] || '#6a5af9';
-    charFilterEl.style.color = c;              // 文字用团队色
-    charFilterEl.style.backgroundColor = c + '22'; // 同色淡底（13%透明度）
-}
-
-if (charFilterEl) {
-    charFilterEl.addEventListener('change', applyCharColor);
-    if (groupFilterEl) {
-        groupFilterEl.addEventListener('change', function () { setTimeout(applyCharColor, 0); });
-    }
-    applyCharColor();
-}
-
-
-// ============================================ //
 // 全站外链跳转统一经 external.html 警告确认页中转
 // 任何页面（index/mine/以后新增页）点击指向其他网站的链接
 // 都会先弹出"即将离开图鉴"确认页；同站内部链接不受影响

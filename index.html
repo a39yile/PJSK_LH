@@ -10,73 +10,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>世界计划卡片个人收集图鉴 | Project SEKAI Cards</title>
-    <link rel="stylesheet" href="style.css?v=260913m">
+    <link rel="stylesheet" href="style.css?v=260914">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>世界计划 彩色舞台<br>feat. 初音未来<br>个人收集图鉴</h1>
-            <p class="subtitle">Project SEKAI Card Collection</p>
-            <p class="stats" id="stats">共 59 张卡片 | 6 个团体</p>
-        </header>
 
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="搜索角色名或卡名...">
-            <div class="filter-row">
-                <select id="groupFilter">
-                    <option value="all">团队</option>
-                    <option value="Virtual Singers">VOCALOID</option>
-                    <option value="Leo/need">Leo/need</option>
-                    <option value="MORE MORE JUMP!">MORE MORE JUMP!</option>
-                    <option value="Vivid BAD SQUAD">Vivid BAD SQUAD</option>
-                    <option value="Wonderlands×Showtime">Wonderlands×Showtime</option>
-                    <option value="25时，在Nightcord见">25点，Nightcord见。</option>
+        <!-- ==================== 视图：主页 ==================== -->
+        <div id="view-home" class="page-view active">
+            <header>
+                <h1>世界计划 彩色舞台<br>feat. 初音未来<br>个人收集图鉴</h1>
+                <p class="subtitle">Project SEKAI Card Collection</p>
+                <p class="stats" id="stats">共 59 张卡片 | 6 个团体</p>
+            </header>
+
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="搜索角色名或卡名...">
+                <div class="filter-row">
+                    <select id="groupFilter">
+                        <option value="all">团队</option>
+                        <option value="Virtual Singers">VOCALOID</option>
+                        <option value="Leo/need">Leo/need</option>
+                        <option value="MORE MORE JUMP!">MORE MORE JUMP!</option>
+                        <option value="Vivid BAD SQUAD">Vivid BAD SQUAD</option>
+                        <option value="Wonderlands×Showtime">Wonderlands×Showtime</option>
+                        <option value="25时，在Nightcord见">25点，Nightcord见。</option>
+                    </select>
+                    <select id="characterFilter">
+                        <option value="all">角色</option>
+                    </select>
+                </div>
+                <select id="typeFilter">
+                    <option value="all">卡片类型</option>
+                    <option value="常驻">常驻</option>
+                    <option value="期间限定">期间限定</option>
+                    <option value="WL限定">WL限定</option>
+                    <option value="BFES">BFES</option>
+                    <option value="CFES">CFES</option>
+                    <option value="联动限定">联动限定</option>
                 </select>
-                <select id="characterFilter">
-                    <option value="all">角色</option>
-                </select>
+                <button id="resetFilter" type="button">重置筛选</button>
             </div>
-            <select id="typeFilter">
-                <option value="all">卡片类型</option>
-                <option value="常驻">常驻</option>
-                <option value="期间限定">期间限定</option>
-                <option value="WL限定">WL限定</option>
-                <option value="BFES">BFES</option>
-                <option value="CFES">CFES</option>
-                <option value="联动限定">联动限定</option>
-            </select>
-            <button id="resetFilter" type="button">重置筛选</button>
+
+            <div id="iconBar" class="icon-bar"></div>
+            <div id="cardContainer"></div>
+
+            <footer>
+                <p>数据来源：Project SEKAI 官方游戏 | 共 <span id="totalCount">59</span> 张卡片</p>
+                <p>本页面为粉丝制作的非官方图鉴，不隶属于 SEGA 或 Colorful Palette 本页面使用Qwen3辅助制作<br>by:a39yile<br>
+                <!-- 底部项目链接 -->
+        <div class="footer-link">
+        <a href="https://github.com/a39yile/PJSK_LH" target="_blank">前往项目</a>
+        </div>
+    </p>
+            </footer>
         </div>
 
-        <div id="iconBar" class="icon-bar"></div>
-        <div id="cardContainer"></div>
+        <!-- ==================== 视图：我的 ==================== -->
+        <div id="view-mine" class="page-view">
+            <header>
+                <h1>我的</h1>
+                <p class="subtitle">Personal Page</p>
+            </header>
 
-<script src="data/zy_data.js?v=260913m"></script>
-<script src="app.js?v=260913m"></script>
+            <!-- 链接内容全部在 data/gy_data.js 中维护（文字/图片/网址），本文件无需改动 -->
+            <section class="link-section">
+                <h2 class="section-title">常用链接</h2>
+                <div class="link-list" id="linkList"><!-- 由 data/gy_data.js 渲染 --></div>
 
-        <footer>
-            <p>数据来源：Project SEKAI 官方游戏 | 共 <span id="totalCount">59</span> 张卡片</p>
-            <p>本页面为粉丝制作的非官方图鉴，不隶属于 SEGA 或 Colorful Palette 本页面使用Qwen3辅助制作<br>by:a39yile<br>
-            <!-- 底部项目链接 -->
-    <div class="footer-link">
-    <a href="https://github.com/a39yile/PJSK_LH" target="_blank">前往项目</a>
+                <!-- 来源说明：点击 MoeSekai 跳转 https://pjsk.moe/zh-cn/ -->
+                <p class="link-credit">这些链接来自于<a class="credit-link" href="https://pjsk.moe/zh-cn/" target="_blank" rel="noopener">MoeSekai</a>。</p>
+            </section>
+        </div>
+
     </div>
-</p>
-        </footer>
-    </div>
+
     <!-- 主题切换按钮 -->
 <button id="theme-toggle">切换主题</button>
 
-<!-- 引入外部JS文件 -->
-<script src="script.js?v=260913m"></script>
+<!-- 数据文件（主页 zy_data / 我的 gy_data）与应用逻辑 -->
+<script src="data/zy_data.js?v=260914"></script>
+<script src="data/gy_data.js?v=260914"></script>
+<script src="app.js?v=260914"></script>
+<script src="script.js?v=260914"></script>
 
-<!-- 底部透明导航栏 -->
+<!-- 底部透明导航栏（SPA 视图切换，无刷新） -->
 <nav class="bottom-nav">
-    <a href="index.html" class="nav-item active">
+    <a href="#home" class="nav-item active" data-view="home">
         <img src="icon/mine/zy.png" alt="主页" class="nav-icon-img">
         <span class="nav-text">主页</span>
     </a>
-    <a href="mine.html" class="nav-item">
+    <a href="#mine" class="nav-item" data-view="mine">
         <img src="icon/mine/wo.png" alt="我的" class="nav-icon-img">
         <span class="nav-text">我的</span>
     </a>

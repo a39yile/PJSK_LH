@@ -1258,3 +1258,175 @@ body {
   transition: none !important;
  }
 }
+
+
+/* ============================================
+ PC 页面适配（≥1024px）
+ ============================================ */
+
+@media (min-width: 1024px) {
+ .container {
+ max-width: 1160px;
+ padding: 24px 32px 115px;
+ }
+
+ h1 {
+ font-size: 3rem;
+ }
+
+ header {
+ padding: 48px 0 30px;
+ }
+
+ /* 宽屏下每行卡片数自动增多，间隙略放大 */
+ .card-grid {
+ grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+ gap: 24px;
+ }
+
+ /* 底栏收窄成紧凑悬浮 Dock */
+ .bottom-nav {
+ width: 400px;
+ max-width: 400px;
+ height: 64px;
+ bottom: 22px;
+ }
+
+ .nav-item {
+ font-size: 0.8rem;
+ cursor: pointer;
+ }
+
+ .nav-icon-img {
+ width: 30px;
+ height: 30px;
+ }
+
+ /* 「关于」页列表居中限宽，避免被拉得过宽 */
+ .link-section {
+ max-width: 720px;
+ margin-left: auto;
+ margin-right: auto;
+ }
+
+ .section-title {
+ font-size: 1.5rem;
+ }
+
+ /* 重置按钮加宽一点更协调 */
+ #resetFilter {
+ padding: 10px 26px;
+ }
+}
+
+/* 超宽屏（≥1440px）进一步利用空间 */
+@media (min-width: 1440px) {
+ .container {
+ max-width: 1380px;
+ }
+
+ .card-grid {
+ grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+ }
+}
+
+
+/* 角色筛选框恢复普通样式：不随团队上色、聚焦不变紫框 */
+#characterFilter {
+ color: #333 !important;
+ background-color: #fff !important;
+ border-color: #d0d0d8 !important;
+}
+
+#characterFilter:focus {
+ border-color: #d0d0d8 !important;
+}
+
+:root[data-theme="dark"] #characterFilter {
+ color: #e0e0e0 !important;
+ background-color: #2a2a2a !important;
+ border-color: #444 !important;
+}
+
+
+/* ============================================
+ 全站背景图（图片放 icon/bg.jpg 即生效；没有该文件时自动显示原主题底色）
+ ============================================ */
+
+body {
+ background-image: url('icon/bg.jpg');
+ background-size: cover;
+ background-position: center;
+ background-attachment: fixed;
+ background-repeat: no-repeat;
+}
+
+/* 半透明遮罩，保证文字在图上仍清晰（明暗模式分别控制） */
+body::before {
+ content: '';
+ position: fixed;
+ inset: 0;
+ z-index: -1;
+ background: rgba(255, 255, 255, 0.55);
+ pointer-events: none;
+}
+
+:root[data-theme="dark"] body::before {
+ background: rgba(18, 18, 18, 0.7);
+}
+
+/* 容器透出背景图（卡片、展开分组等面板仍保持自身底色） */
+.container {
+ background-color: transparent !important;
+}
+
+
+/* ============================================
+ 单页视图切换（主页/我的，无刷新）
+ ============================================ */
+
+.page-view {
+ display: none;
+}
+
+.page-view.active {
+ display: block;
+ animation: view-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes view-in {
+ from { opacity: 0; transform: translateY(16px); }
+ to { opacity: 1; transform: none; }
+}
+
+
+/* ============================================
+ 取消点击后的蓝色高亮与误选文字
+ ============================================ */
+
+/* 1) 去掉移动端点击元素时的蓝/灰色闪光（tap highlight） */
+* {
+ -webkit-tap-highlight-color: transparent;
+}
+
+/* 2) 可点击元素禁止文字被拖选成蓝色块；正文文字仍可选择 */
+a,
+.card-item,
+.link-card,
+.link-sub-item,
+.nav-item,
+.icon-btn,
+.group-title,
+#theme-toggle,
+#resetFilter {
+ -webkit-user-select: none;
+ -moz-user-select: none;
+ user-select: none;
+}
+
+/* 3) 连续点击不触发缩放式双击选择 */
+.bottom-nav,
+.search-bar,
+.link-section {
+ touch-action: manipulation;
+}
