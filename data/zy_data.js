@@ -8,6 +8,13 @@ const cardsData = [
   {
     "group": "Leo/need",
     "character": "天马咲希",
+    "type": "常驻",
+    "card_name": "谢意满满！",
+    "image": "icon/Leoneed/1098.webp"
+  },
+  {
+    "group": "Leo/need",
+    "character": "天马咲希",
     "type": "期间限定",
     "card_name": "充满着快乐和幸福的时光",
     "image": "icon/Leoneed/1022.webp"
