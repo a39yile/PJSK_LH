@@ -40,7 +40,7 @@
       'Wonderlands×Showtime': ['天马司', '凤笑梦', '草薙宁宁', '神代类'], 
       '25时，在Nightcord见': ['宵崎奏', '朝比奈真冬', '东云绘名', '晓山瑞希'], 
     }, 
-    cardTypes: ['常驻', '期间限定', 'WL限定', 'BFES', 'CFES', '联动限定'], 
+    cardTypes: ['常驻', '期间限定', 'WL限定', 'BFES', 'CFES', '联动限定','生日'], 
     groupLabels: { 
       'Virtual Singers': 'VOCALOID', 
       '25时，在Nightcord见': '25点，Nightcord见。', 
