@@ -155,6 +155,20 @@ const cardsData = [
   {
     "group": "MORE MORE JUMP!",
     "character": "桐谷遥",
+    "type": "生日",
+    "card_name": "Happy Birthday！！2026",
+    "image": "icon/MMJ/1260.webp"
+  },
+  {
+    "group": "MORE MORE JUMP!",
+    "character": "桐谷遥",
+    "type": "常驻",
+    "card_name": "必杀！配合攻击",
+    "image": "icon/MMJ/716.webp"
+  },
+  {
+    "group": "MORE MORE JUMP!",
+    "character": "桐谷遥",
     "type": "常驻",
     "card_name": "献给努力的你",
     "image": "icon/MMJ/191.webp"
@@ -165,6 +179,20 @@ const cardsData = [
     "type": "WL限定",
     "card_name": "日积月累的心愿",
     "image": "icon/MMJ/921.webp"
+  },
+  {
+    "group": "MORE MORE JUMP!",
+    "character": "花里实乃理",
+    "type": "CFES",
+    "card_name": "梦想会孕育新的梦想",
+    "image": "icon/MMJ/840.webp"
+  },
+  {
+    "group": "MORE MORE JUMP!",
+    "character": "花里实乃理",
+    "type": "BFES",
+    "card_name": "闪耀的偶像！",
+    "image": "icon/MMJ/1252.webp"
   },
   {
     "group": "MORE MORE JUMP!",
@@ -214,6 +242,13 @@ const cardsData = [
     "type": "常驻",
     "card_name": "不曾改变的夏日天空",
     "image": "icon/VBS/254.webp"
+  },
+  {
+    "group": "Vivid BAD SQUAD",
+    "character": "东云彰人",
+    "type": "常驻",
+    "card_name": "冬夜谈心",
+    "image": "icon/VBS/342.webp"
   },
   {
     "group": "Vivid BAD SQUAD",
@@ -281,6 +316,20 @@ const cardsData = [
   {
     "group": "Wonderlands×Showtime",
     "character": "天马司",
+    "type": "常驻",
+    "card_name": "执着的追逐",
+    "image": "icon/WS/451.webp"
+  },
+  {
+    "group": "Wonderlands×Showtime",
+    "character": "天马司",
+    "type": "常驻",
+    "card_name": "以明星为目标全力冲刺！",
+    "image": "icon/WS/928.webp"
+  },
+  {
+    "group": "Wonderlands×Showtime",
+    "character": "天马司",
     "type": "联动限定",
     "card_name": "创造星光璀璨的舞台",
     "image": "icon/WS/1117.webp"
@@ -291,6 +340,20 @@ const cardsData = [
     "type": "常驻",
     "card_name": "帅气的反派？",
     "image": "icon/WS/957.webp"
+  },
+  {
+    "group": "Wonderlands×Showtime",
+    "character": "神代类",
+    "type": "常驻",
+    "card_name": "昔日的憧憬",
+    "image": "icon/WS/301.webp"
+  },
+  {
+    "group": "Wonderlands×Showtime",
+    "character": "神代类",
+    "type": "常驻",
+    "card_name": "照亮黄昏的光辉",
+    "image": "icon/WS/428.webp"
   },
   {
     "group": "Wonderlands×Showtime",
@@ -338,8 +401,22 @@ const cardsData = [
     "group": "25时，在Nightcord见",
     "character": "宵崎奏",
     "type": "常驻",
+    "card_name": "倒吊少女眼中的世界",
+    "image": "icon/25H/309.webp"
+  },
+  {
+    "group": "25时，在Nightcord见",
+    "character": "宵崎奏",
+    "type": "常驻",
     "card_name": "镜中陌生的我",
     "image": "icon/25H/1097.webp"
+  },
+  {
+    "group": "25时，在Nightcord见",
+    "character": "晓山瑞希",
+    "type": "期间限定",
+    "card_name": "直播最灿烂的笑容！",
+    "image": "icon/25H/1257.webp"
   },
   {
     "group": "25时，在Nightcord见",
@@ -413,6 +490,20 @@ const cardsData = [
   },
   {
     "group": "Virtual Singers",
+    "character": "巡音流歌",
+    "type": "BFES",
+    "card_name": "巡回「世界」，交汇心愿",
+    "image": "icon/VOCALOID/1145.webp"
+  },
+  {
+    "group": "Virtual Singers",
+    "character": "镜音铃",
+    "type": "常驻",
+    "card_name": "激烈对抗",
+    "image": "icon/VOCALOID/92.webp"
+  },
+  {
+    "group": "Virtual Singers",
     "character": "镜音连",
     "type": "常驻",
     "card_name": "腼腆的招呼",
@@ -424,5 +515,26 @@ const cardsData = [
     "type": "常驻",
     "card_name": "看录像的时候不许笑",
     "image": "icon/VOCALOID/465.webp"
+  },
+  {
+    "group": "Virtual Singers",
+    "character": "镜音铃",
+    "type": "常驻",
+    "card_name": "让我聆听你的回忆",
+    "image": "icon/VOCALOID/775.webp"
+  },
+  {
+    "group": "Virtual Singers",
+    "character": "镜音铃",
+    "type": "常驻",
+    "card_name": "俏皮的旋律",
+    "image": "icon/VOCALOID/245.webp"
+  },
+  {
+    "group": "Virtual Singers",
+    "character": "MEIKO",
+    "type": "期间限定",
+    "card_name": "赠予努力的你",
+    "image": "icon/VOCALOID/442.webp"
   }
 ];
