@@ -2,6 +2,8 @@
 
 > 世界计划（Project SEKAI）卡片个人收集图鉴 · 离线网页版
 
+🌐 其他语言：[English](README_en.md)
+
 一个**纯静态、可离线运行**的《世界计划 多彩舞台！（プロジェクトセカイ / Project SEKAI: Colorful Stage!）》**卡片收藏图鉴**。无需后端、无需构建，打开网页即可浏览你的卡片收集，并按团队、角色、卡牌类型快速筛选。
 
 🌐 在线预览：https://a39yile.github.io/PJSK_LH/
@@ -30,7 +32,7 @@
 | Wonderlands×Showtime | 11 |
 | Vivid BAD SQUAD | 9 |
 | 25时，在Nightcord见 | 9 |
-| **合计** | **76** |(之后数量会增加)
+| **合计** | **76** |
 
 ## 🗂 目录结构
 
