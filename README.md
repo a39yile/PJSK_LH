@@ -30,7 +30,7 @@
 | Wonderlands×Showtime | 11 |
 | Vivid BAD SQUAD | 9 |
 | 25时，在Nightcord见 | 9 |
-| **合计** | **76** |
+| **合计** | **76** |(之后数量会增加)
 
 ## 🗂 目录结构
 
