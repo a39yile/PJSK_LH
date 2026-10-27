@@ -416,7 +416,7 @@
     document.querySelectorAll('.nav-item').forEach(function (n) { 
       n.classList.toggle('active', n.dataset.view === (isMine ? 'mine' : 'home')); 
     }); 
-    document.title = isMine ? '我的 - Project SEKAI' : '世界计划卡片个人收集图鉴 | Project SEKAI Cards'; 
+    document.title = isMine ? '关于 - Project SEKAI' : '世界计划卡片个人收集图鉴 | Project SEKAI Cards'; 
     if (isMine) { 
       renderLinkGroups(); 
       mineAutoOpen(query); 
