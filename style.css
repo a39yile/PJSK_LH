@@ -494,6 +494,10 @@ footer a {
  --text-color: #333333;
  --card-bg: #f8f9fc;
  --border-color: #e0e0e8;
+ /* 关键：给 <html> 上底色。html 的背景会铺满整个画布，
+    首帧、跳转间隙、背景图未加载时都不会露出浏览器默认的纯白。 */
+ background-color: var(--bg-color);
+ color-scheme: light;
 }
 
 /* 黑色主题变量 */
@@ -502,6 +506,7 @@ footer a {
  --text-color: #e0e0e0;
  --card-bg: #1e1e1e;
  --border-color: #333333;
+ color-scheme: dark;
 }
 
 /* 将变量应用到页面元素 */
@@ -1029,7 +1034,11 @@ body {
 .bottom-nav {
  left: 50%;
  right: auto;
- transform: translateX(-50%);
+ /* translate3d 提升为独立合成层 + 隔离 backdrop 采样范围，
+    避免任何一次页面重绘都让玻璃块重新采样背景而「闪」一下 */
+ transform: translate3d(-50%, 0, 0);
+ isolation: isolate;
+ backface-visibility: hidden;
  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
  width: calc(100% - 28px);
  max-width: 520px;
@@ -1047,23 +1056,26 @@ body {
  overflow: hidden;
 }
 
-/* 流动光泽：一条斜向高光缓慢扫过，营造"液体"感 */
+/* 流动光泽：一条斜向高光缓慢扫过，营造"液体"感。
+   改用 transform 位移驱动（原来是 left，每帧都会触发布局 + 重绘，
+   连带让 backdrop-filter 重新采样背景，在切换页/滚动时就会闪白） */
 .bottom-nav::before {
  content: '';
  position: absolute;
  top: -20%;
- left: -60%;
+ left: 0;
  width: 42%;
  height: 140%;
  background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
- transform: skewX(-18deg);
+ transform: translate3d(-143%, 0, 0) skewX(-18deg);
  animation: glass-sheen 6s ease-in-out infinite;
+ will-change: transform;
  pointer-events: none;
 }
 
 @keyframes glass-sheen {
- 0%, 55% { left: -60%; }
- 90%, 100% { left: 135%; }
+ 0%, 55% { transform: translate3d(-143%, 0, 0) skewX(-18deg); }
+ 90%, 100% { transform: translate3d(321%, 0, 0) skewX(-18deg); }
 }
 
 /* 导航项改为胶囊气泡形态 */
@@ -1136,19 +1148,22 @@ body {
   inset 0 1px 0 rgba(255, 255, 255, 0.85),
   inset 0 -1px 0 rgba(255, 255, 255, 0.25);
  overflow: hidden;
+ isolation: isolate;
+ backface-visibility: hidden;
 }
 
-/* 与底栏同款的流动光泽 */
+/* 与底栏同款的流动光泽（同样改用 transform 驱动，避免每帧重绘闪白） */
 #theme-toggle::before {
  content: '';
  position: absolute;
  top: -20%;
- left: -60%;
+ left: 0;
  width: 42%;
  height: 140%;
  background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
- transform: skewX(-18deg);
+ transform: translate3d(-143%, 0, 0) skewX(-18deg);
  animation: glass-sheen 6s ease-in-out infinite;
+ will-change: transform;
  pointer-events: none;
 }
 
@@ -1184,8 +1199,8 @@ body {
 
 /* 1) 进场：整块玻璃从下方浮升渐显 */
 @keyframes nav-rise {
- from { opacity: 0; transform: translate(-50%, 26px); }
- to { opacity: 1; transform: translate(-50%, 0); }
+ from { opacity: 0; transform: translate3d(-50%, 26px, 0); }
+ to { opacity: 1; transform: translate3d(-50%, 0, 0); }
 }
 
 .bottom-nav {
@@ -1364,16 +1379,27 @@ body {
  全站背景图（图片放 icon/bg.jpg 即生效；没有该文件时自动显示原主题底色）
  ============================================ */
 
+/* 背景图改由「固定伪元素」承载，不再用 background-attachment: fixed。
+   视图切换时页面高度会突变（主页很长 / 关于很短），fixed 背景图会被迫重排重绘，
+   在移动端 Safari/Chrome 上表现为一次明显的「闪白/跳动」。 */
 body {
+ background-image: none;
+}
+
+body::before {
+ content: '';
+ position: fixed;
+ inset: 0;
+ z-index: -1;
  background-image: url('icon/bg.jpg');
  background-size: cover;
  background-position: center;
- background-attachment: fixed;
  background-repeat: no-repeat;
+ pointer-events: none;
 }
 
 /* 半透明遮罩，保证文字在图上仍清晰（明暗模式分别控制） */
-body::before {
+body::after {
  content: '';
  position: fixed;
  inset: 0;
@@ -1382,7 +1408,7 @@ body::before {
  pointer-events: none;
 }
 
-:root[data-theme="dark"] body::before {
+:root[data-theme="dark"] body::after {
  background: rgba(18, 18, 18, 0.7);
 }
 
@@ -1400,14 +1426,29 @@ body::before {
  display: none;
 }
 
+/* 切换动画不再从「完全透明」起步：
+   原来 opacity 从 0 开始，切换的那一瞬整页内容等于全部消失、直接露出背景，
+   观感上就是闪一下白光。改成半透明起步 + 小幅位移，是「淡入」而不是「闪」。 */
 .page-view.active {
  display: block;
- animation: view-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+ animation: view-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes view-in {
- from { opacity: 0; transform: translateY(16px); }
+ from { opacity: 0.55; transform: translate3d(0, 10px, 0); }
  to { opacity: 1; transform: none; }
+}
+
+/* 内容较少的视图给最小高度，避免切换时页面高度骤变导致背景/底栏跟着抖一下 */
+#view-mine,
+#view-qita {
+ min-height: 68vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+ .page-view.active {
+  animation: none;
+ }
 }
 
 
@@ -1440,4 +1481,124 @@ a,
 .search-bar,
 .link-section {
  touch-action: manipulation;
+}
+
+
+/* ============================================
+ 卡片属性（cool / cute / happy / mysterious / pure）
+ 图标自备：把图放到 icon/Attr/ 下，然后在 app.js 的
+ CONFIG.attrIcons 里填相对路径即可自动显示；留空时用彩色圆点
+ ============================================ */
+
+/* 种类标签 + 属性角标 同一行，放不下自动换行 */
+.card-tags {
+ display: flex;
+ align-items: center;
+ flex-wrap: wrap;
+ gap: 6px;
+}
+
+.attr-badge {
+ display: inline-flex;
+ align-items: center;
+ gap: 4px;
+ padding: 1px 8px;
+ border: 1px solid currentColor;
+ border-radius: 12px;
+ font-size: 0.72rem;
+ font-weight: bold;
+ line-height: 1.5;
+ background: rgba(255, 255, 255, 0.35);
+ transition: transform 0.2s ease, filter 0.2s ease;
+ white-space: nowrap;
+}
+
+.card-item:hover .attr-badge {
+ transform: translateY(-1px);
+ filter: brightness(1.08);
+}
+
+/* 属性图标（16px 方形，未配置图标时不生成此元素） */
+.attr-badge img {
+ width: 16px;
+ height: 16px;
+ object-fit: contain;
+ border-radius: 4px;
+ flex-shrink: 0;
+}
+
+/* 无图标时的彩色圆点占位 */
+.attr-dot {
+ width: 7px;
+ height: 7px;
+ border-radius: 50%;
+ flex-shrink: 0;
+ box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55);
+}
+
+/* 属性尚未填写时的灰色占位角标 */
+.attr-badge-empty {
+ color: #999;
+ border-style: dashed;
+ border-color: #c8c8d4;
+ background: rgba(128, 128, 128, 0.06);
+ font-weight: normal;
+}
+
+.attr-badge-empty:hover {
+ transform: none;
+ filter: none;
+}
+
+/* —— 属性角标 · 暗色模式 —— */
+:root[data-theme="dark"] .attr-badge {
+ background: rgba(255, 255, 255, 0.08);
+}
+
+:root[data-theme="dark"] .attr-dot {
+ box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.35);
+}
+
+:root[data-theme="dark"] .attr-badge-empty {
+ color: #777;
+ border-color: #444;
+ background: rgba(255, 255, 255, 0.04);
+}
+
+/* 属性筛选下拉：沿用普通控件外观，不随属性上色（与角色筛选保持一致） */
+#attrFilter {
+ color: #333 !important;
+ background-color: #fff !important;
+ border-color: #d0d0d8 !important;
+}
+
+#attrFilter:focus {
+ border-color: #d0d0d8 !important;
+}
+
+:root[data-theme="dark"] #attrFilter {
+ color: #e0e0e0 !important;
+ background-color: #2a2a2a !important;
+ border-color: #444 !important;
+}
+
+/* 筛选条多了「属性」一项后的排布微调 */
+@media (min-width: 769px) {
+ .search-bar > select {
+  flex: 1 1 130px;
+  min-width: 130px;
+ }
+ #typeFilter { flex-basis: 150px; }
+ #attrFilter { flex-basis: 140px; }
+}
+
+@media (max-width: 480px) {
+ /* 窄屏把两个下拉并到一行，避免筛选区过高挤掉卡片 */
+ .search-bar > select {
+  display: inline-block;
+  width: calc(50% - 5px);
+ }
+ #attrFilter { margin-left: 10px; }
+ .card-tags { gap: 4px; }
+ .attr-badge { font-size: 0.68rem; padding: 0 6px; }
 }

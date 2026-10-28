@@ -10,7 +10,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>世界计划卡片个人收集图鉴 | Project SEKAI Cards</title>
-    <link rel="stylesheet" href="style.css?v=260914">
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+    /* 主题预设：必须在首帧绘制「之前」同步执行。
+       原来主题是靠 body 底部的 script.js 才写到 <html data-theme> 上的，
+       在它执行前浏览器已经用白底画过一帧 —— 暗色模式下这就是一次明显的闪白，
+       刷新页面、从别的页面跳回来时都会出现。
+       这里提前读一次本地存储；后面 script.js 再执行一遍结果一致，无副作用。 */
+    (function () {
+      try {
+        var keys = ['theme', 'data-theme', 'pjsk-theme', 'pjsk_theme', 'color-theme', 'colorScheme'];
+        for (var i = 0; i < keys.length; i++) {
+          var v = localStorage.getItem(keys[i]);
+          if (!v) continue;
+          v = String(v).toLowerCase();
+          if (v.indexOf('dark') !== -1) { document.documentElement.setAttribute('data-theme', 'dark'); break; }
+          if (v.indexOf('light') !== -1 || v.indexOf('white') !== -1) { document.documentElement.setAttribute('data-theme', 'light'); break; }
+        }
+      } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <div class="container">
@@ -39,15 +59,28 @@
                         <option value="all">角色</option>
                     </select>
                 </div>
-                <select id="typeFilter">
-                    <option value="all">卡片类型</option>
-                    <option value="常驻">常驻</option>
-                    <option value="期间限定">期间限定</option>
-                    <option value="WL限定">WL限定</option>
-                    <option value="BFES">BFES</option>
-                    <option value="CFES">CFES</option>
-                    <option value="联动限定">联动限定</option>
-                </select>
+                <!-- 卡片类型 + 属性 同属一个 .filter-row，确保两者并排 -->
+                <div class="filter-row">
+                    <select id="typeFilter">
+                        <option value="all">卡片类型</option>
+                        <option value="常驻">常驻</option>
+                        <option value="期间限定">期间限定</option>
+                        <option value="WL限定">WL限定</option>
+                        <option value="BFES">BFES</option>
+                        <option value="CFES">CFES</option>
+                        <option value="联动限定">联动限定</option>
+                        <option value="生日">生日</option>
+                    </select>
+                    <!-- 属性筛选：选项由 app.js 的 CONFIG.attributes 动态生成，此处仅作无 JS 时的降级 -->
+                    <select id="attrFilter">
+                        <option value="all">属性</option>
+                        <option value="cool">Cool</option>
+                        <option value="cute">Cute</option>
+                        <option value="happy">Happy</option>
+                        <option value="mysterious">Mysterious</option>
+                        <option value="pure">Pure</option>
+                    </select>
+                </div>
                 <button id="resetFilter" type="button">重置筛选</button>
             </div>
 
@@ -56,7 +89,7 @@
 
             <footer>
                 <p>数据来源：Project SEKAI 官方游戏 | 共 <span id="totalCount">加载失败</span> 张卡片</p>
-                <p>本页面为粉丝制作的非官方图鉴，不隶属于 SEGA 或 Colorful Palette 本页面使用Qwen3辅助制作<br>by:a39yile<br>
+                <p>本页面为粉丝制作的非官方图鉴，不隶属于 SEGA 或 Colorful Palette。<br>by:a39yile<br>
                 <!-- 底部项目链接 -->
         <div class="footer-link">
         <a href="https://github.com/a39yile/PJSK_LH" target="_blank">前往项目</a>
@@ -82,16 +115,24 @@
             </section>
         </div>
 
+        <!-- ==================== 视图：其他（原 qita.html，已并入单页，切换不再整页跳转） ==================== -->
+        <div id="view-qita" class="page-view">
+            <header>
+                <h1>其他</h1>
+                <p class="subtitle">还没有想好写什么</p>
+            </header>
+        </div>
+
     </div>
 
     <!-- 主题切换按钮 -->
 <button id="theme-toggle">切换主题</button>
 
 <!-- 数据文件（主页 zy_data / 关于 gy_data）与应用逻辑 -->
-<script src="data/zy_data.js?v=260914"></script>
-<script src="data/gy_data.js?v=260914"></script>
-<script src="app.js?v=260914"></script>
-<script src="script.js?v=260914"></script>
+<script src="data/zy_data.js"></script>
+<script src="data/gy_data.js"></script>
+<script src="app.js"></script>
+<script src="script.js"></script>
 
 <!-- 底部透明导航栏（SPA 视图切换，无刷新） -->
 <nav class="bottom-nav">
@@ -103,8 +144,8 @@
         <img src="icon/mine/wo.png" alt="关于" class="nav-icon-img">
         <span class="nav-text">关于</span>
     </a>
-    <a href="qita.html" class="nav-item" data-view="qita">
-        <img src="icon/mine/NoHave.png" alt="关于" class="nav-icon-img">
+    <a href="#qita" class="nav-item" data-view="qita">
+        <img src="icon/mine/NoHave.png" alt="其他" class="nav-icon-img">
         <span class="nav-text">其他</span>
     </a>
 </nav>

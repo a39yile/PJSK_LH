@@ -4,33 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>其他 - Project SEKAI</title>
-    <link rel="stylesheet" href="style.css?v=260914">
+
+    <style>
+        /* 兜底底色：跳转途中即使被渲染一帧，也不会是一块刺眼的白 */
+        html { background: #ffffff; color-scheme: light; }
+        html[data-theme="dark"] { background: #121212; color-scheme: dark; }
+        body { margin: 0; background: transparent; }
+    </style>
+
+    <script>
+    /* 「其他」页已并入单页（index.html#qita），这里只负责把旧链接接过去。
+       在 head 里同步跳转，body 根本不会被绘制，跨页跳转的白屏也就消失了。 */
+    (function () {
+      try {
+        var keys = ['theme', 'data-theme', 'pjsk-theme', 'pjsk_theme', 'color-theme', 'colorScheme'];
+        for (var i = 0; i < keys.length; i++) {
+          var v = localStorage.getItem(keys[i]);
+          if (!v) continue;
+          v = String(v).toLowerCase();
+          if (v.indexOf('dark') !== -1) { document.documentElement.setAttribute('data-theme', 'dark'); break; }
+          if (v.indexOf('light') !== -1 || v.indexOf('white') !== -1) { document.documentElement.setAttribute('data-theme', 'light'); break; }
+        }
+      } catch (e) {}
+      window.location.replace('index.html#qita');
+    })();
+    </script>
 </head>
 <body>
-    <div class="container">
-        <div class="page-view active">
-            <header>
-                <h1>其他</h1>
-                <p class="subtitle">还没有想好写什么</p>
-            </header>
-        </div>
-    </div>
-    <button id="theme-toggle">切换主题</button>
-    <script src="script.js?v=260914"></script>
-
-    <nav class="bottom-nav">
-        <a href="index.html#home" class="nav-item">
-            <img src="icon/mine/zy.png" alt="主页" class="nav-icon-img">
-            <span class="nav-text">主页</span>
-        </a>
-        <a href="index.html#mine" class="nav-item">
-            <img src="icon/mine/wo.png" alt="关于" class="nav-icon-img">
-            <span class="nav-text">关于</span>
-        </a>
-        <a href="qita.html" class="nav-item active" aria-current="page">
-        <img src="icon/mine/NoHave.png" alt="关于" class="nav-icon-img">
-                        <span class="nav-text">其他</span>
-        </a>
-    </nav>
+    <script>window.location.replace('index.html#qita');</script>
+    <noscript>
+        <p style="text-align:center;font-family:sans-serif;padding:40px;color:#888;">
+            请开启 JavaScript，或<a href="index.html#qita">点击进入「其他」页</a>。
+        </p>
+    </noscript>
 </body>
 </html>

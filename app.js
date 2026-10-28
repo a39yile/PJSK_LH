@@ -40,7 +40,38 @@
       'Wonderlands×Showtime': ['天马司', '凤笑梦', '草薙宁宁', '神代类'], 
       '25时，在Nightcord见': ['宵崎奏', '朝比奈真冬', '东云绘名', '晓山瑞希'], 
     }, 
-    cardTypes: ['常驻', '期间限定', 'WL限定', 'BFES', 'CFES', '联动限定','生日'], 
+    cardTypes: ['常驻', '期间限定', 'WL限定', 'BFES', 'CFES', '联动限定','生日'],
+    // ==========================================
+    // 卡片属性（与 zy_data.js 的 attr 字段一一对应）
+    // 顺序即筛选下拉与角标的显示顺序
+    // ==========================================
+    attributes: ['cool', 'cute', 'happy', 'mysterious', 'pure'],
+    attrLabels: {
+      'cool': 'Cool',
+      'cute': 'Cute',
+      'happy': 'Happy',
+      'mysterious': 'Mysterious',
+      'pure': 'Pure',
+    },
+    // 角标与筛选文字的颜色，未配置时回退 #888
+    attrColors: {
+      'cool': '#4A9BE8',
+      'cute': '#FF7BAC',
+      'happy': '#FFB92E',
+      'mysterious': '#A56BE0',
+      'pure': '#37D68A',
+    },
+    // 属性图标：把图放到 icon/Attr/ 下后，在这里填相对路径即可自动生效
+    // 留空时角标退化为「彩色圆点 + 文字」，不占位、不报 404
+    attrIcons: {
+      'cool': 'icon/Tuant/Attributes/cool.webp',
+      'cute': 'icon/Tuant/Attributes/cute.webp',
+      'happy': 'icon/Tuant/Attributes/happy.webp',
+      'mysterious': 'icon/Tuant/Attributes/mysterious.webp',
+      'pure': 'icon/Tuant/Attributes/pure.webp',
+    },
+    // 未填写属性的卡片占位（attr 为空串时显示）
+    attrEmptyLabel: '属性待填写',
     groupLabels: { 
       'Virtual Singers': 'VOCALOID', 
       '25时，在Nightcord见': '25点，Nightcord见。', 
@@ -54,7 +85,8 @@
     searchInput: () => document.getElementById('searchInput'), 
     typeFilter: () => document.getElementById('typeFilter'), 
     groupFilter: () => document.getElementById('groupFilter'), 
-    characterFilter: () => document.getElementById('characterFilter'), 
+    characterFilter: () => document.getElementById('characterFilter'),
+    attrFilter: () => document.getElementById('attrFilter'), 
     iconBar: () => document.getElementById('iconBar'), 
     cardContainer: () => document.getElementById('cardContainer'), 
     totalCount: () => document.getElementById('totalCount'), 
@@ -76,6 +108,36 @@
   function groupColor(group) { 
     return CONFIG.groupColors[group] || '#888'; 
   } 
+  /** 属性显示名（未配置时原样返回 key，便于自定义扩展） */ 
+  function attrLabel(attr) { 
+    return CONFIG.attrLabels[attr] || attr; 
+  } 
+  /** 属性色（未配置时回退中性灰） */ 
+  function attrColor(attr) { 
+    return CONFIG.attrColors[attr] || '#888'; 
+  } 
+  /** 属性图标路径；CONFIG.attrIcons 留空则返回空串，角标自动退化为圆点 */ 
+  function attrIcon(attr) { 
+    return CONFIG.attrIcons[attr] || ''; 
+  } 
+  /** 
+   * 属性角标：配了图标就是「图标+文字」，没配就是「彩色圆点+文字」； 
+   * attr 为空串时输出灰色占位角标，方便定位还没填属性的卡。 
+   * 图片加载失败自动隐藏 img，不会露出裂图。 
+   */ 
+  function renderAttrBadge(attr) { 
+    if (!attr) { 
+      return '<span class="attr-badge attr-badge-empty" data-attr="">' + esc(CONFIG.attrEmptyLabel) + '</span>'; 
+    } 
+    const color = attrColor(attr); 
+    const icon = attrIcon(attr); 
+    const iconHtml = icon 
+      ? '<img src="' + esc(icon) + '" alt="' + esc(attrLabel(attr)) + '" onerror="this.style.display=\'none\'">' 
+      : '<span class="attr-dot" style="background:' + color + '"></span>'; 
+    return '<span class="attr-badge" data-attr="' + esc(attr) + '" style="color:' + color 
+      + ';border-color:' + color + '">' + iconHtml + esc(attrLabel(attr)) + '</span>'; 
+  } 
+
 
   // ============================================ 
   // 4. 渲染函数 
@@ -87,6 +149,7 @@
       + `&name=${encodeURIComponent(card.card_name)}`
       + `&type=${encodeURIComponent(card.type)}`
       + `&char=${encodeURIComponent(card.character)}`
+      + `&attr=${encodeURIComponent(card.attr || '')}`
       + `&g=${CONFIG.groupsOrder.indexOf(card.group)}`;
     const linkStart = `<a href="detail.html${detailParams}" class="card-link">`;
     const linkEnd = `</a>`;
@@ -104,7 +167,10 @@
             <div class="card-content"> 
                 <div class="character-name" style="color: ${color}">${esc(card.character)}</div> 
                 <div class="card-name">${esc(card.card_name)}</div> 
-                <span class="card-type type-${esc(card.type)}">${esc(card.type)}</span> 
+                <div class="card-tags"> 
+                    <span class="card-type type-${esc(card.type)}">${esc(card.type)}</span> 
+                    ${renderAttrBadge(card.attr)} 
+                </div> 
             </div> 
         </div>
         ${linkEnd}`; 
@@ -165,6 +231,17 @@
       select.appendChild(opt); 
     }); 
   } 
+  function populateAttrFilter() { 
+    const select = DOM.attrFilter(); 
+    if (!select) return; 
+    select.innerHTML = '<option value="all">属性</option>'; 
+    CONFIG.attributes.forEach(attr => { 
+      const opt = document.createElement('option'); 
+      opt.value = attr; 
+      opt.textContent = attrLabel(attr); 
+      select.appendChild(opt); 
+    }); 
+  } 
   function updateCharacterFilter(groupValue) { 
     const select = DOM.characterFilter(); 
     select.innerHTML = '<option value="all">角色</option>'; 
@@ -190,13 +267,16 @@
     const typeValue = DOM.typeFilter().value; 
     const groupValue = DOM.groupFilter().value; 
     const characterValue = DOM.characterFilter().value; 
-    const isFiltered = searchTerm !== '' || typeValue !== 'all' || groupValue !== 'all' || characterValue !== 'all'; 
+    const attrValue = DOM.attrFilter().value; 
+    const isFiltered = searchTerm !== '' || typeValue !== 'all' || groupValue !== 'all' 
+      || characterValue !== 'all' || attrValue !== 'all'; 
     const filtered = cardsData.filter(card => { 
       const matchSearch = !searchTerm || card.character.toLowerCase().includes(searchTerm) || card.card_name.toLowerCase().includes(searchTerm); 
       const matchType = typeValue === 'all' || card.type === typeValue; 
       const matchGroup = groupValue === 'all' || card.group === groupValue; 
       const matchCharacter = characterValue === 'all' || card.character === characterValue; 
-      return matchSearch && matchType && matchGroup && matchCharacter; 
+      const matchAttr = attrValue === 'all' || card.attr === attrValue; 
+      return matchSearch && matchType && matchGroup && matchCharacter && matchAttr; 
     }); 
     return { filtered, isFiltered }; 
   } 
@@ -210,11 +290,13 @@
       const type = DOM.typeFilter().value;
       const group = DOM.groupFilter().value;
       const char = DOM.characterFilter().value;
+      const attr = DOM.attrFilter().value;
 
       if (search) params.set('q', search);
       if (type !== 'all') params.set('type', type);
       if (group !== 'all') params.set('group', group);
       if (char !== 'all') params.set('char', char);
+      if (attr !== 'all') params.set('attr', attr);
 
       // 使用 pushState 避免页面刷新，同时记录历史
       const newURL = (params.toString() ? `?${params.toString()}` : window.location.pathname) + window.location.hash;
@@ -234,6 +316,7 @@
           updateCharacterFilter(params.get('group')); // 先更新角色列表
       }
       if (params.has('char')) DOM.characterFilter().value = params.get('char');
+      if (params.has('attr')) DOM.attrFilter().value = params.get('attr');
   }
 
   /** 
@@ -245,6 +328,7 @@
     DOM.groupFilter().value = 'all'; 
     updateCharacterFilter('all'); 
     DOM.characterFilter().value = 'all'; 
+    DOM.attrFilter().value = 'all'; 
     // 清除所有分组的展开/选中状态由 refresh 重新渲染完成 
     refresh(); 
   } 
@@ -282,6 +366,7 @@
       refresh(); 
     }); 
     DOM.characterFilter().addEventListener('change', refresh); 
+    DOM.attrFilter().addEventListener('change', refresh); 
     DOM.iconBar().addEventListener('click', handleIconClick); 
     DOM.resetFilter().addEventListener('click', resetFilters); 
   } 
@@ -408,39 +493,63 @@
     return { view: qi === -1 ? h : h.slice(0, qi), query: qi === -1 ? '' : h.slice(qi + 1) }; 
   } 
 
+  // 视图注册表：新增视图只需往这里加一项，DOM 用 #view-<key> 命名即可
+  const VIEW_KEYS = ['home', 'mine', 'qita']; 
+  const VIEW_TITLES = { 
+    home: '世界计划卡片个人收集图鉴 | Project SEKAI Cards', 
+    mine: '关于 - Project SEKAI', 
+    qita: '其他 - Project SEKAI', 
+  }; 
+  let lastView = null; 
+
   function routeView() { 
     const { view, query } = parseHash(); 
-    const isMine = view === 'mine'; 
-    document.getElementById('view-home').classList.toggle('active', !isMine); 
-    document.getElementById('view-mine').classList.toggle('active', isMine); 
-    document.querySelectorAll('.nav-item').forEach(function (n) { 
-      n.classList.toggle('active', n.dataset.view === (isMine ? 'mine' : 'home')); 
+    const current = VIEW_KEYS.indexOf(view) === -1 ? 'home' : view; 
+
+    // 在同一帧里一次性完成所有视图的显隐，避免出现「都不可见」的空档（那会直接露出背景）
+    VIEW_KEYS.forEach(function (key) { 
+      const el = document.getElementById('view-' + key); 
+      if (el) el.classList.toggle('active', key === current); 
     }); 
-    document.title = isMine ? '关于 - Project SEKAI' : '世界计划卡片个人收集图鉴 | Project SEKAI Cards'; 
-    if (isMine) { 
+    document.querySelectorAll('.nav-item').forEach(function (n) { 
+      n.classList.toggle('active', n.dataset.view === current); 
+    }); 
+    document.title = VIEW_TITLES[current] || VIEW_TITLES.home; 
+    if (current === 'mine') { 
       renderLinkGroups(); 
       mineAutoOpen(query); 
     } 
-    window.scrollTo(0, 0); 
+    // 只有真正换了视图才回到顶部；同一个视图内点导航不再无谓滚动（减少布局抖动）
+    if (lastView !== current) { 
+      lastView = current; 
+      window.scrollTo(0, 0); 
+    } 
   } 
 
   // ============================================ 
   // 8. 初始化 
   // ============================================ 
   function init() { 
-    populateGroupFilter(); 
-    populateTypeFilter(); 
-    updateCharacterFilter('all'); 
-    bindEvents(); 
-    // 先尝试从 URL 恢复状态
-    initFromURL();
-    // 再进行首次渲染
-    refresh(); 
-    // 视图路由：hashchange 无刷新切换主页/我的
+    // 1) 先建立视图路由：哪怕后面的卡片数据出问题，底部导航也必须能正常切换
     window.addEventListener('hashchange', routeView); 
     routeView(); 
-    // 兜底：若以 mine.html?open=N 旧地址进来被重定向，参数可能落在 search 上
-    if (parseHash().view === 'mine') mineAutoOpen(''); 
+
+    // 2) 再初始化主页数据与交互；任何一步失败都不该拖垮导航
+    try { 
+      populateGroupFilter(); 
+      populateTypeFilter(); 
+      populateAttrFilter(); 
+      updateCharacterFilter('all'); 
+      bindEvents(); 
+      // 先尝试从 URL 恢复状态
+      initFromURL();
+      // 再进行首次渲染
+      refresh(); 
+      // 兜底：若以 mine.html?open=N 旧地址进来被重定向，参数可能落在 search 上
+      if (parseHash().view === 'mine') mineAutoOpen(''); 
+    } catch (err) { 
+      console.error('[图鉴] 主页数据初始化失败，导航仍可正常使用：', err); 
+    } 
   } 
   if (document.readyState === 'loading') { 
     document.addEventListener('DOMContentLoaded', init); 

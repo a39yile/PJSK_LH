@@ -8,17 +8,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>关于 - Project SEKAI</title>
-</head>
-<body>
-    <p style="text-align:center;font-family:sans-serif;padding:40px;color:#888;">正在进入单页版本…</p>
+
+    <style>
+        /* 兜底底色：跳转途中即使被渲染一帧，也不会是一块刺眼的白 */
+        html { background: #ffffff; color-scheme: light; }
+        html[data-theme="dark"] { background: #121212; color-scheme: dark; }
+        body { margin: 0; background: transparent; }
+    </style>
+
     <script>
-    /* 兼容旧入口：mine.html(?open=N) → index.html#mine(?open=N) */
+    /* 兼容旧入口：mine.html(?open=N) → index.html#mine(?open=N)
+       改在 head 里同步跳转：不再先画一帧白底 + 「正在进入单页版本…」再跳，
+       那正是旧写法每次都会闪一下白的原因。 */
     (function () {
-        var q = new URLSearchParams(window.location.search);
-        var target = 'index.html#mine';
-        if (q.has('open')) target += '?open=' + encodeURIComponent(q.get('open'));
-        window.location.replace(target);
+      try {
+        var keys = ['theme', 'data-theme', 'pjsk-theme', 'pjsk_theme', 'color-theme', 'colorScheme'];
+        for (var i = 0; i < keys.length; i++) {
+          var v = localStorage.getItem(keys[i]);
+          if (!v) continue;
+          v = String(v).toLowerCase();
+          if (v.indexOf('dark') !== -1) { document.documentElement.setAttribute('data-theme', 'dark'); break; }
+          if (v.indexOf('light') !== -1 || v.indexOf('white') !== -1) { document.documentElement.setAttribute('data-theme', 'light'); break; }
+        }
+      } catch (e) {}
+
+      var q = new URLSearchParams(window.location.search);
+      var target = 'index.html#mine';
+      if (q.has('open')) target += '?open=' + encodeURIComponent(q.get('open'));
+      window.location.replace(target);
     })();
     </script>
+</head>
+<body>
+    <noscript>
+        <p style="text-align:center;font-family:sans-serif;padding:40px;color:#888;">
+            请开启 JavaScript，或<a href="index.html#mine">点击进入「关于」页</a>。
+        </p>
+    </noscript>
 </body>
 </html>

@@ -47,6 +47,8 @@
         .detail-line1 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; }
         .detail-name { font-size: 0.95rem; }
         .detail-type { font-size: 0.75rem; padding: 1px 8px; border-radius: 10px; }
+        .detail-attr { font-size: 0.75rem; padding: 1px 8px; border-radius: 10px; border: 1px solid currentColor; display: none; }
+        .detail-attr.show { display: inline-block; }
         .detail-line2 { font-size: 0.85rem; }
         .detail-char { cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
         .detail-char:hover { filter: brightness(1.3); }
@@ -105,6 +107,7 @@
         <div class="detail-line1">
             <span class="detail-name" id="detailName"></span>
             <span class="detail-type" id="detailType"></span>
+            <span class="detail-attr" id="detailAttr"></span>
         </div>
         <div class="detail-line2"><span id="detailLabel">角色名字：</span><span class="detail-char" id="detailChar"></span></div>
     </div>
@@ -126,6 +129,12 @@
 
         // 团队顺序（与「关于」页卡片顺序一致）与团队色
         const GROUPS_ORDER = ['Leo/need', 'MORE MORE JUMP!', 'Vivid BAD SQUAD', 'Wonderlands×Showtime', '25时，在Nightcord见', 'Virtual Singers'];
+        // 属性色（需与 app.js 的 CONFIG.attrColors 同步）
+        const ATTR_COLORS = {
+            'cool': '#4A9BE8', 'cute': '#FF7BAC', 'happy': '#FFB92E',
+            'mysterious': '#A56BE0', 'pure': '#37D68A',
+        };
+
         const TEAM_COLORS = {
             'Leo/need': '#4455DD', 'MORE MORE JUMP!': '#88DD44', 'Vivid BAD SQUAD': '#EE1166',
             'Wonderlands×Showtime': '#FF9900', '25时，在Nightcord见': '#884499', 'Virtual Singers': '#33CCBB',
@@ -157,6 +166,16 @@
             typeEl.style.color = color;
             typeEl.style.background = 'rgba(255,255,255,0.14)';
             document.getElementById('detailLabel').style.color = color;
+
+            // 属性标签：app.js 传来的 attr 为空（尚未填写）时保持隐藏
+            const attr = p.get('attr');
+            if (attr) {
+                const attrEl = document.getElementById('detailAttr');
+                attrEl.textContent = attr;
+                attrEl.style.color = ATTR_COLORS[attr] || color;
+                attrEl.style.background = 'rgba(255,255,255,0.14)';
+                attrEl.classList.add('show');
+            }
 
             const charEl = document.getElementById('detailChar');
             charEl.textContent = p.get('char');
