@@ -1,6 +1,8 @@
 // ============================================
 // 卡片数据 - cardsData
-// 每张卡片包含：group（团队）、character（角色）、type（种类）、card_name（卡名）、image（图片路径）
+// 每张卡片包含：group（团队）、character（角色）、type（种类）、attr（属性）、card_name（卡名）、image（图片路径）
+// attr 取值只能是以下 5 个英文小写之一，留空表示尚未填写（筛选器里可用「属性待填写」快速定位）：
+//   cool（クール） / cute（キュート） / happy（ハッピー） / mysterious（ミステリアス） / pure（ピュア）
 // 新增卡片只需在此数组中追加对象，无需修改其他文件
 // ============================================
 
@@ -9,6 +11,7 @@ const cardsData = [
     "group": "Leo/need",
     "character": "天马咲希",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "谢意满满！",
     "image": "icon/Leoneed/1098.webp"
   },
@@ -16,13 +19,23 @@ const cardsData = [
     "group": "Leo/need",
     "character": "天马咲希",
     "type": "期间限定",
+    "attr": "happy",
     "card_name": "充满着快乐和幸福的时光",
     "image": "icon/Leoneed/1022.webp"
   },
   {
     "group": "Leo/need",
+    "character": "天马咲希",
+    "type": "常驻",
+    "attr": "pure",
+    "card_name": "最棒的女儿节！",
+    "image": "icon/Leoneed/185.webp"
+  },
+  {
+    "group": "Leo/need",
     "character": "日野森志步",
     "type": "WL限定",
+    "attr": "happy",
     "card_name": "与伙伴的谈笑",
     "image": "icon/Leoneed/1192.webp"
   },
@@ -30,6 +43,7 @@ const cardsData = [
     "group": "Leo/need",
     "character": "日野森志步",
     "type": "常驻",
+    "attr": "happy",
     "card_name": "带上慰问品",
     "image": "icon/Leoneed/910.webp"
   },
@@ -37,6 +51,7 @@ const cardsData = [
     "group": "Leo/need",
     "character": "日野森志步",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "豁然开朗的答案",
     "image": "icon/Leoneed/207.webp"
   },
@@ -44,6 +59,7 @@ const cardsData = [
     "group": "Leo/need",
     "character": "日野森志步",
     "type": "常驻",
+    "attr": "mysterious",
     "card_name": "隐藏在表面下的温柔",
     "image": "icon/Leoneed/111.webp"
   },
@@ -51,6 +67,7 @@ const cardsData = [
     "group": "Leo/need",
     "character": "星乃一歌",
     "type": "WL限定",
+    "attr": "pure",
     "card_name": "抓不住的\"心愿\"",
     "image": "icon/Leoneed/1189.webp"
   },
@@ -58,6 +75,7 @@ const cardsData = [
     "group": "Leo/need",
     "character": "星乃一歌",
     "type": "常驻",
+    "attr": "mysterious",
     "card_name": "不假思索的举动",
     "image": "icon/Leoneed/416.webp"
   },
@@ -65,6 +83,7 @@ const cardsData = [
     "group": "Leo/need",
     "character": "星乃一歌",
     "type": "常驻",
+    "attr": "mysterious",
     "card_name": "串连彼此心愿的旋律",
     "image": "icon/Leoneed/279.webp"
   },
@@ -72,6 +91,7 @@ const cardsData = [
     "group": "Leo/need",
     "character": "星乃一歌",
     "type": "常驻",
+    "attr": "mysterious",
     "card_name": "和未来的相遇",
     "image": "icon/Leoneed/998.webp"
   },
@@ -79,6 +99,7 @@ const cardsData = [
     "group": "Leo/need",
     "character": "望月穗波",
     "type": "WL限定",
+    "attr": "mysterious",
     "card_name": "怀揣对未来的憧憬",
     "image": "icon/Leoneed/1191.webp"
   },
@@ -86,6 +107,7 @@ const cardsData = [
     "group": "Leo/need",
     "character": "望月穗波",
     "type": "常驻",
+    "attr": "cute",
     "card_name": "迷惘沉入静寂之中",
     "image": "icon/Leoneed/1201.webp"
   },
@@ -93,6 +115,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "日野森雫",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "世上独一无二的演出",
     "image": "icon/MMJ/160.webp"
   },
@@ -100,6 +123,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "日野森雫",
     "type": "常驻",
+    "attr": "happy",
     "card_name": "坚定决心的光芒",
     "image": "icon/MMJ/1045.webp"
   },
@@ -107,13 +131,23 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "日野森雫",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "用饭菜为大家送上笑容",
     "image": "icon/MMJ/939.webp"
   },
   {
     "group": "MORE MORE JUMP!",
+    "character": "日野森雫",
+    "type": "常驻",
+    "attr": "mysterious",
+    "card_name": "与过去重合的景色",
+    "image": "icon/MMJ/1266.webp"
+  },
+  {
+    "group": "MORE MORE JUMP!",
     "character": "桃井爱莉",
     "type": "常驻",
+    "attr": "happy",
     "card_name": "不要勉强",
     "image": "icon/MMJ/591.webp"
   },
@@ -121,6 +155,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "桃井爱莉",
     "type": "常驻",
+    "attr": "mysterious",
     "card_name": "与粉丝一起！",
     "image": "icon/MMJ/331.webp"
   },
@@ -128,6 +163,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "桃井爱莉",
     "type": "常驻",
+    "attr": "cute",
     "card_name": "拉开的距离",
     "image": "icon/MMJ/630.webp"
   },
@@ -135,13 +171,23 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "桃井爱莉",
     "type": "常驻",
+    "attr": "cute",
     "card_name": "永远乐观向上",
     "image": "icon/MMJ/129.webp"
   },
   {
     "group": "MORE MORE JUMP!",
+    "character": "桃井爱莉",
+    "type": "常驻",
+    "attr": "mysterious",
+    "card_name": "用冰冰凉恶作剧！",
+    "image": "icon/MMJ/1267.webp"
+  },
+  {
+    "group": "MORE MORE JUMP!",
     "character": "桐谷遥",
     "type": "WL限定",
+    "attr": "cute",
     "card_name": "促成相遇的羁绊",
     "image": "icon/MMJ/1219.webp"
   },
@@ -149,6 +195,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "桐谷遥",
     "type": "WL限定",
+    "attr": "pure",
     "card_name": "接受的希望",
     "image": "icon/MMJ/922.webp"
   },
@@ -156,6 +203,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "桐谷遥",
     "type": "生日",
+    "attr": "cool",
     "card_name": "Happy Birthday！！2026",
     "image": "icon/MMJ/1260.webp"
   },
@@ -163,6 +211,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "桐谷遥",
     "type": "常驻",
+    "attr": "happy",
     "card_name": "必杀！配合攻击",
     "image": "icon/MMJ/716.webp"
   },
@@ -170,6 +219,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "桐谷遥",
     "type": "常驻",
+    "attr": "happy",
     "card_name": "献给努力的你",
     "image": "icon/MMJ/191.webp"
   },
@@ -177,6 +227,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "花里实乃理",
     "type": "WL限定",
+    "attr": "cute",
     "card_name": "日积月累的心愿",
     "image": "icon/MMJ/921.webp"
   },
@@ -184,6 +235,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "花里实乃理",
     "type": "CFES",
+    "attr": "pure",
     "card_name": "梦想会孕育新的梦想",
     "image": "icon/MMJ/840.webp"
   },
@@ -191,6 +243,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "花里实乃理",
     "type": "BFES",
+    "attr": "cute",
     "card_name": "闪耀的偶像！",
     "image": "icon/MMJ/1252.webp"
   },
@@ -198,6 +251,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "花里实乃理",
     "type": "常驻",
+    "attr": "mysterious",
     "card_name": "一起筹备粉丝见面会",
     "image": "icon/MMJ/330.webp"
   },
@@ -205,6 +259,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "花里实乃理",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "干净利落地",
     "image": "icon/MMJ/828.webp"
   },
@@ -212,6 +267,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "花里实乃理",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "是我一辈子的宝物",
     "image": "icon/MMJ/664.webp"
   },
@@ -219,6 +275,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "花里实乃理",
     "type": "常驻",
+    "attr": "pure",
     "card_name": "激情的演讲！",
     "image": "icon/MMJ/392.webp"
   },
@@ -226,6 +283,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "花里实乃理",
     "type": "常驻",
+    "attr": "pure",
     "card_name": "编织真挚的心愿",
     "image": "icon/MMJ/1207.webp"
   },
@@ -233,6 +291,7 @@ const cardsData = [
     "group": "MORE MORE JUMP!",
     "character": "花里实乃理",
     "type": "常驻",
+    "attr": "happy",
     "card_name": "美食时间！",
     "image": "icon/MMJ/590.webp"
   },
@@ -240,6 +299,7 @@ const cardsData = [
     "group": "Vivid BAD SQUAD",
     "character": "东云彰人",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "不曾改变的夏日天空",
     "image": "icon/VBS/254.webp"
   },
@@ -247,6 +307,7 @@ const cardsData = [
     "group": "Vivid BAD SQUAD",
     "character": "东云彰人",
     "type": "常驻",
+    "attr": "pure",
     "card_name": "冬夜谈心",
     "image": "icon/VBS/342.webp"
   },
@@ -254,6 +315,7 @@ const cardsData = [
     "group": "Vivid BAD SQUAD",
     "character": "小豆泽心羽",
     "type": "常驻",
+    "attr": "cute",
     "card_name": "不能睡着",
     "image": "icon/VBS/769.webp"
   },
@@ -261,6 +323,7 @@ const cardsData = [
     "group": "Vivid BAD SQUAD",
     "character": "白石杏",
     "type": "BFES",
+    "attr": "pure",
     "card_name": "无可替代的人们",
     "image": "icon/VBS/1058.webp"
   },
@@ -268,6 +331,7 @@ const cardsData = [
     "group": "Vivid BAD SQUAD",
     "character": "白石杏",
     "type": "常驻",
+    "attr": "cute",
     "card_name": "满载的回忆",
     "image": "icon/VBS/659.webp"
   },
@@ -275,6 +339,7 @@ const cardsData = [
     "group": "Vivid BAD SQUAD",
     "character": "白石杏",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "笑容也能得小红花",
     "image": "icon/VBS/719.webp"
   },
@@ -282,6 +347,7 @@ const cardsData = [
     "group": "Vivid BAD SQUAD",
     "character": "青柳冬弥",
     "type": "常驻",
+    "attr": "cute",
     "card_name": "了解我们之间的差距",
     "image": "icon/VBS/660.webp"
   },
@@ -289,6 +355,7 @@ const cardsData = [
     "group": "Vivid BAD SQUAD",
     "character": "青柳冬弥",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "从今往后直到永远",
     "image": "icon/VBS/504.webp"
   },
@@ -296,6 +363,7 @@ const cardsData = [
     "group": "Vivid BAD SQUAD",
     "character": "青柳冬弥",
     "type": "联动限定",
+    "attr": "cute",
     "card_name": "运用各自的武器",
     "image": "icon/VBS/1116.webp"
   },
@@ -303,6 +371,7 @@ const cardsData = [
     "group": "Wonderlands×Showtime",
     "character": "天马司",
     "type": "WL限定",
+    "attr": "mysterious",
     "card_name": "心怀决心",
     "image": "icon/WS/1169.webp"
   },
@@ -310,6 +379,7 @@ const cardsData = [
     "group": "Wonderlands×Showtime",
     "character": "天马司",
     "type": "常驻",
+    "attr": "mysterious",
     "card_name": "我是主角！",
     "image": "icon/WS/141.webp"
   },
@@ -317,6 +387,15 @@ const cardsData = [
     "group": "Wonderlands×Showtime",
     "character": "天马司",
     "type": "常驻",
+    "attr": "cool",
+    "card_name": "何去何从",
+    "image": "icon/WS/232.webp"
+  },
+  {
+    "group": "Wonderlands×Showtime",
+    "character": "天马司",
+    "type": "常驻",
+    "attr": "happy",
     "card_name": "执着的追逐",
     "image": "icon/WS/451.webp"
   },
@@ -324,6 +403,7 @@ const cardsData = [
     "group": "Wonderlands×Showtime",
     "character": "天马司",
     "type": "常驻",
+    "attr": "cute",
     "card_name": "以明星为目标全力冲刺！",
     "image": "icon/WS/928.webp"
   },
@@ -331,6 +411,7 @@ const cardsData = [
     "group": "Wonderlands×Showtime",
     "character": "天马司",
     "type": "联动限定",
+    "attr": "cool",
     "card_name": "创造星光璀璨的舞台",
     "image": "icon/WS/1117.webp"
   },
@@ -338,6 +419,7 @@ const cardsData = [
     "group": "Wonderlands×Showtime",
     "character": "神代类",
     "type": "常驻",
+    "attr": "pure",
     "card_name": "帅气的反派？",
     "image": "icon/WS/957.webp"
   },
@@ -345,6 +427,7 @@ const cardsData = [
     "group": "Wonderlands×Showtime",
     "character": "神代类",
     "type": "常驻",
+    "attr": "happy",
     "card_name": "昔日的憧憬",
     "image": "icon/WS/301.webp"
   },
@@ -352,6 +435,7 @@ const cardsData = [
     "group": "Wonderlands×Showtime",
     "character": "神代类",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "照亮黄昏的光辉",
     "image": "icon/WS/428.webp"
   },
@@ -359,6 +443,7 @@ const cardsData = [
     "group": "Wonderlands×Showtime",
     "character": "神代类",
     "type": "常驻",
+    "attr": "happy",
     "card_name": "无意间听到的只言片语",
     "image": "icon/WS/854.webp"
   },
@@ -366,6 +451,7 @@ const cardsData = [
     "group": "Wonderlands×Showtime",
     "character": "神代类",
     "type": "期间限定",
+    "attr": "happy",
     "card_name": "与憧憬之人的距离",
     "image": "icon/WS/1196.webp"
   },
@@ -373,6 +459,7 @@ const cardsData = [
     "group": "Wonderlands×Showtime",
     "character": "草薙宁宁",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "你给予我的自信",
     "image": "icon/WS/234.webp"
   },
@@ -380,6 +467,7 @@ const cardsData = [
     "group": "25时，在Nightcord见",
     "character": "东云绘名",
     "type": "WL限定",
+    "attr": "mysterious",
     "card_name": "你，总是",
     "image": "icon/25H/1187.webp"
   },
@@ -387,6 +475,7 @@ const cardsData = [
     "group": "25时，在Nightcord见",
     "character": "东云绘名",
     "type": "联动限定",
+    "attr": "cool",
     "card_name": "feat.酷洛米",
     "image": "icon/25H/806.webp"
   },
@@ -394,6 +483,7 @@ const cardsData = [
     "group": "25时，在Nightcord见",
     "character": "宵崎奏",
     "type": "CFES",
+    "attr": "mysterious",
     "card_name": "重温旧梦",
     "image": "icon/25H/195.webp"
   },
@@ -401,6 +491,7 @@ const cardsData = [
     "group": "25时，在Nightcord见",
     "character": "宵崎奏",
     "type": "常驻",
+    "attr": "cute",
     "card_name": "倒吊少女眼中的世界",
     "image": "icon/25H/309.webp"
   },
@@ -408,6 +499,7 @@ const cardsData = [
     "group": "25时，在Nightcord见",
     "character": "宵崎奏",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "镜中陌生的我",
     "image": "icon/25H/1097.webp"
   },
@@ -415,6 +507,7 @@ const cardsData = [
     "group": "25时，在Nightcord见",
     "character": "晓山瑞希",
     "type": "期间限定",
+    "attr": "pure",
     "card_name": "直播最灿烂的笑容！",
     "image": "icon/25H/1257.webp"
   },
@@ -422,6 +515,7 @@ const cardsData = [
     "group": "25时，在Nightcord见",
     "character": "晓山瑞希",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "两个人闲逛",
     "image": "icon/25H/721.webp"
   },
@@ -429,6 +523,7 @@ const cardsData = [
     "group": "25时，在Nightcord见",
     "character": "朝比奈真冬",
     "type": "常驻",
+    "attr": "cute",
     "card_name": "只有你知晓的静谧",
     "image": "icon/25H/557.webp"
   },
@@ -436,6 +531,7 @@ const cardsData = [
     "group": "25时，在Nightcord见",
     "character": "朝比奈真冬",
     "type": "常驻",
+    "attr": "happy",
     "card_name": "流露的真心",
     "image": "icon/25H/834.webp"
   },
@@ -443,6 +539,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "初音未来",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "哪怕是逆耳之言",
     "image": "icon/VOCALOID/298.webp"
   },
@@ -450,6 +547,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "初音未来",
     "type": "常驻",
+    "attr": "pure",
     "card_name": "能感受到轨迹的引导",
     "image": "icon/VOCALOID/875.webp"
   },
@@ -457,6 +555,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "初音未来",
     "type": "常驻",
+    "attr": "happy",
     "card_name": "重合的歌声",
     "image": "icon/VOCALOID/537.webp"
   },
@@ -464,6 +563,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "初音未来",
     "type": "常驻",
+    "attr": "cute",
     "card_name": "向大家呈献首演",
     "image": "icon/VOCALOID/88.webp"
   },
@@ -471,6 +571,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "初音未来",
     "type": "期间限定",
+    "attr": "cool",
     "card_name": "被回响的心愿包围",
     "image": "icon/VOCALOID/1148.webp"
   },
@@ -478,6 +579,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "初音未来",
     "type": "联动限定",
+    "attr": "cool",
     "card_name": "来自窗扉的「世界」",
     "image": "icon/VOCALOID/1096.webp"
   },
@@ -485,6 +587,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "巡音流歌",
     "type": "WL限定",
+    "attr": "cool",
     "card_name": "激动不已的舞台！",
     "image": "icon/VOCALOID/1238.webp"
   },
@@ -492,6 +595,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "巡音流歌",
     "type": "BFES",
+    "attr": "happy",
     "card_name": "巡回「世界」，交汇心愿",
     "image": "icon/VOCALOID/1145.webp"
   },
@@ -499,6 +603,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "镜音铃",
     "type": "常驻",
+    "attr": "pure",
     "card_name": "激烈对抗",
     "image": "icon/VOCALOID/92.webp"
   },
@@ -506,6 +611,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "镜音连",
     "type": "常驻",
+    "attr": "cool",
     "card_name": "腼腆的招呼",
     "image": "icon/VOCALOID/447.webp"
   },
@@ -513,6 +619,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "镜音铃",
     "type": "常驻",
+    "attr": "mysterious",
     "card_name": "看录像的时候不许笑",
     "image": "icon/VOCALOID/465.webp"
   },
@@ -520,6 +627,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "镜音铃",
     "type": "常驻",
+    "attr": "pure",
     "card_name": "让我聆听你的回忆",
     "image": "icon/VOCALOID/775.webp"
   },
@@ -527,6 +635,7 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "镜音铃",
     "type": "常驻",
+    "attr": "happy",
     "card_name": "俏皮的旋律",
     "image": "icon/VOCALOID/245.webp"
   },
@@ -534,7 +643,16 @@ const cardsData = [
     "group": "Virtual Singers",
     "character": "MEIKO",
     "type": "期间限定",
+    "attr": "pure",
     "card_name": "赠予努力的你",
     "image": "icon/VOCALOID/442.webp"
+  },
+  {
+    "group": "Virtual Singers",
+    "character": "KAITO",
+    "type": "常驻",
+    "attr": "cool",
+    "card_name": "这不就是执着吗？",
+    "image": "icon/VOCALOID/506.webp"
   }
 ];
