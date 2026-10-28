@@ -10,9 +10,9 @@ A **purely static, offline-capable** card collection gallery for *Project SEKAI:
 
 ## ✨ Features
 
-- **Card gallery**: **76 cards** organized into the six main units
+- **Card gallery**: **81 cards** organized into the six main units
   - Leo/need · MORE MORE JUMP! · Vivid BAD SQUAD · Wonderlands×Showtime · 25时，在Nightcord见 (25-ji, Nightcord de.) · Virtual Singers
-- **Multi-dimensional filtering**: combine filters by *keyword / card type / unit / character*
+- **Multi-dimensional filtering**: combine filters by *keyword / card type / unit / character / Attributes *
   - Card types: Permanent (常驻), Limited (期间限定), WL Limited (WL限定), BFES, CFES, Collaboration Limited (联动限定), Birthday (生日)
 - **Shareable filter state**: filter conditions are synced to the URL (`pushState`), so you can copy the link to share and they survive a page refresh
 - **Collapsible unit sections**: tap the top icon bar to expand / collapse a unit
@@ -26,13 +26,13 @@ A **purely static, offline-capable** card collection gallery for *Project SEKAI:
 
 | Unit | Cards |
 |---|---|
-| MORE MORE JUMP! | 21 |
-| Virtual Singers | 14 |
-| Leo/need | 12 |
-| Wonderlands×Showtime | 11 |
+| MORE MORE JUMP! | 23 |
+| Virtual Singers | 15 |
+| Leo/need | 13 |
+| Wonderlands×Showtime | 12 |
 | Vivid BAD SQUAD | 9 |
 | 25时，在Nightcord见 | 9 |
-| **Total** | **76** |
+| **Total** | **81** |
 
 ## 🗂 Directory Structure
 
@@ -42,13 +42,13 @@ PJSK_LH/
 ├── mine.html           # "About" view (character external links)
 ├── detail.html         # Card detail / full-image page
 ├── external.html       # External-link confirmation interstitial
+├── external.html       # I haven't figured out what to write yet.
 ├── app.js              # Core home logic (filtering / URL sync / routing / rendering)
 ├── script.js           # Theme-switching logic
 ├── style.css           # Styles
 ├── data/
-│   ├── zy_data.js      # Card data: cardsData (76 cards)
+│   ├── zy_data.js      # Card data: cardsData (81 cards)
 │   ├── gy_data.js      # "About" page link data: linkData
-│   └── data.zip        # Data bundle
 └── icon/               # Card images, unit icons, character portraits, background, etc.
 ```
 

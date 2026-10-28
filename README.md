@@ -10,9 +10,9 @@
 
 ## ✨ 功能特性
 
-- **卡片图鉴**：收录 **76 张**卡片，按六大团体分组展示
+- **卡片图鉴**：收录 **81 张**卡片，按六大团体分组展示
   - Leo/need · MORE MORE JUMP! · Vivid BAD SQUAD · Wonderlands×Showtime · 25时，在Nightcord见 · Virtual Singers
-- **多维筛选**：支持按「搜索关键词 / 卡牌类型 / 团队 / 角色」组合筛选
+- **多维筛选**：支持按「搜索关键词 / 卡牌类型 / 团队 / 角色 / 属性 」组合筛选
   - 卡牌类型：常驻、期间限定、WL限定、BFES、CFES、联动限定、生日
 - **筛选状态可分享**：筛选条件同步到 URL（`pushState`），可复制链接分享、刷新不丢失
 - **团队分组折叠**：点击顶部图标栏可展开 / 收起对应团队
@@ -26,13 +26,13 @@
 
 | 团体 | 卡片数 |
 |---|---|
-| MORE MORE JUMP! | 21 |
-| Virtual Singers | 14 |
-| Leo/need | 12 |
-| Wonderlands×Showtime | 11 |
+| MORE MORE JUMP! | 23 |
+| Virtual Singers | 15 |
+| Leo/need | 13 |
+| Wonderlands×Showtime | 12 |
 | Vivid BAD SQUAD | 9 |
 | 25时，在Nightcord见 | 9 |
-| **合计** | **76** |
+| **合计** | **81** |
 
 ## 🗂 目录结构
 
@@ -42,13 +42,13 @@ PJSK_LH/
 ├── mine.html           # 「关于」视图（角色外链入口）
 ├── detail.html         # 卡片详情大图页
 ├── external.html       # 外部链接确认中转页
+├── qita.html           #还没有想好写什么
 ├── app.js              # 主页核心逻辑（筛选 / URL 同步 / 路由 / 渲染）
 ├── script.js           # 主题切换逻辑
 ├── style.css           # 样式
 ├── data/
-│   ├── zy_data.js      # 卡片数据 cardsData（76 张）
+│   ├── zy_data.js      # 卡片数据 cardsData（81 张）
 │   ├── gy_data.js      # 「关于」页链接数据 linkData
-│   └── data.zip        # 数据包
 └── icon/               # 卡片图、团体图标、角色头像、背景图等素材
 ```
 
